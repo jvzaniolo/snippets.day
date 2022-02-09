@@ -1,24 +1,28 @@
-import { PostgrestResponse } from '@supabase/supabase-js'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import supabase from '../lib/supabase'
+import type { PostgrestResponse } from '@supabase/supabase-js'
+import Head from 'next/head'
+import supabase from '../../lib/supabase'
 
 type Post = {
-  id: number
   slug: string
   title: string
   content: string
 }
 
-interface PostProps {
-  post: Post
-}
-
-const Post: NextPage<PostProps> = ({ post }) => {
+const Post: NextPage<{ post: Post }> = ({ post }) => {
   return (
-    <div>
-      <h1>{post.title}</h1>
+    <div className="text-center">
+      <Head>
+        <title>{post.title}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+      <h1 className="text-3xl">{post.title}</h1>
+
+      <div
+        className="mt-10"
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
     </div>
   )
 }
@@ -42,7 +46,7 @@ export const getStaticProps: GetStaticProps = async context => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data: posts }: PostgrestResponse<Post> = await supabase
     .from('posts')
-    .select('id')
+    .select('*')
 
   if (!posts) {
     throw new Error('No posts found')
