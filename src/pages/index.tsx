@@ -1,8 +1,9 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { Box, Grid, Heading, Stack } from '@chakra-ui/react'
+import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
 import PostLink from '../components/Post/Link'
 import supabase from '../lib/supabase'
+import Container from '../components/Container'
 
 type Post = {
   id: number
@@ -12,26 +13,29 @@ type Post = {
 
 const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
   return (
-    <Box>
+    <Box as="main">
       <Head>
         <title>Dev Blog</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Stack as="main" maxW="container.lg" mx="auto" spacing={4}>
-        <Heading size="md">Welcome to my Dev blog</Heading>
+      <Container flexDir={'column'} gap={6}>
+        <Flex flexDir={'column'} align="center">
+          <Heading size="md">Welcome to Dev Blog!</Heading>
+          <Text>Check out some of the great articles the community have written below.</Text>
+        </Flex>
 
         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
           {posts.map(post => (
             <PostLink key={post.id} post={post} />
           ))}
         </Grid>
-      </Stack>
+      </Container>
     </Box>
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const { data: posts, error } = await supabase.from<Post>('posts').select('*')
 
   if (error) {

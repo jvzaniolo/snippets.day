@@ -1,8 +1,12 @@
-import { extendTheme, type ThemeConfig } from '@chakra-ui/react'
+import { extendTheme } from '@chakra-ui/react'
+
+type Props = {
+  colorMode: 'light' | 'dark'
+}
 
 const theme = extendTheme({
   styles: {
-    global: props => ({
+    global: (props: Props) => ({
       'html, body': {
         bg: props.colorMode === 'dark' ? 'gray.900' : 'gray.100',
       },
@@ -10,7 +14,7 @@ const theme = extendTheme({
   },
   config: {
     initialColorMode: 'system',
-    useSystemColorMode: false,
+    useSystemColorMode: true,
   },
 })
 
