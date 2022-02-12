@@ -1,6 +1,7 @@
 import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
+import { Box, Grid, Heading, Stack } from '@chakra-ui/react'
+import PostLink from '../components/Post/Link'
 import supabase from '../lib/supabase'
 
 type Post = {
@@ -11,26 +12,22 @@ type Post = {
 
 const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
   return (
-    <div>
+    <Box>
       <Head>
         <title>Dev Blog</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1>Welcome to my Dev blog</h1>
+      <Stack as="main" maxW="container.lg" mx="auto" spacing={4}>
+        <Heading size="md">Welcome to my Dev blog</Heading>
 
-        <section>
+        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
           {posts.map(post => (
-            <div key={post.id}>
-              <Link href={`/posts/${post.slug}`}>
-                <a>{post.title}</a>
-              </Link>
-            </div>
+            <PostLink key={post.id} post={post} />
           ))}
-        </section>
-      </main>
-    </div>
+        </Grid>
+      </Stack>
+    </Box>
   )
 }
 
