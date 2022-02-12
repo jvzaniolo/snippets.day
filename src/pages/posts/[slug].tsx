@@ -1,6 +1,14 @@
-import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import type { PostgrestResponse } from '@supabase/supabase-js'
+import { useColorModeValue } from '@chakra-ui/react'
+import type { GetServerSideProps, NextPage } from 'next'
+
 import Head from 'next/head'
+import ReactMarkdown from 'react-markdown'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import {
+  materialDark,
+  materialLight,
+} from 'react-syntax-highlighter/dist/cjs/styles/prism'
+
 import supabase from '../../lib/supabase'
 
 type Post = {
@@ -10,57 +18,63 @@ type Post = {
 }
 
 const Post: NextPage<{ post: Post }> = ({ post }) => {
+  const syntaxStyle = useColorModeValue(materialLight, materialDark)
+
   return (
-    <div className="text-center">
+    <div>
       <Head>
         <title>{post.title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1 className="text-3xl">{post.title}</h1>
+      <h1>{post.title}</h1>
 
-      <div
-        className="mt-10"
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
+      <ReactMarkdown
+        components={{
+          code({ node, inline, className, children, ...props }) {
+            const match = /language-(\w+)/.exec(className || '')
+
+            return !inline && match ? (
+              <SyntaxHighlighter
+                style={syntaxStyle}
+                showLineNumbers
+                language={match[1]}
+                PreTag="div"
+                {...props}
+              >
+                {String(children).replace(/\n$/, '')}
+              </SyntaxHighlighter>
+            ) : (
+              <code className={className} {...props}>
+                {children}
+              </code>
+            )
+          },
+        }}
+      >
+        {post.content}
+      </ReactMarkdown>
     </div>
   )
 }
 
-export const getStaticProps: GetStaticProps = async context => {
-  const slug = context.params?.slug
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const slug = params?.slug as string
 
-  const { data: post } = await supabase
-    .from('posts')
+  const { data: post, error } = await supabase
+    .from<Post>('posts')
     .select('*')
     .eq('slug', slug)
     .single()
+
+  if (error) {
+    throw new Error(error.message)
+  }
 
   return {
     props: {
       post,
     },
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: posts }: PostgrestResponse<Post> = await supabase
-    .from('posts')
-    .select('*')
-
-  if (!posts) {
-    throw new Error('No posts found')
-  }
-
-  const paths = posts.map(post => ({
-    params: {
-      slug: post.slug,
-    },
-  }))
-
-  return {
-    paths,
-    fallback: false,
   }
 }
 
