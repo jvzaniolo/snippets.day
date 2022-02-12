@@ -1,4 +1,3 @@
-import { useColorModeValue } from '@chakra-ui/react'
 import type { GetServerSideProps, NextPage } from 'next'
 
 import Head from 'next/head'
@@ -18,8 +17,6 @@ type Post = {
 }
 
 const Post: NextPage<{ post: Post }> = ({ post }) => {
-  const syntaxStyle = useColorModeValue(materialLight, materialDark)
-
   return (
     <div>
       <Head>
@@ -36,7 +33,7 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
 
             return !inline && match ? (
               <SyntaxHighlighter
-                style={syntaxStyle}
+                style={materialDark}
                 showLineNumbers
                 language={match[1]}
                 PreTag="div"

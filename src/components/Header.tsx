@@ -1,22 +1,23 @@
 import * as React from 'react'
-import { SunIcon, MoonIcon } from '@chakra-ui/icons'
-import { Box, Flex, Heading, IconButton, useColorMode } from '@chakra-ui/react'
+import { useTheme } from '../contexts/ThemeContext'
 
 const Header = () => {
-  const { colorMode, toggleColorMode } = useColorMode()
+  const { colorMode, toggleColorMode } = useTheme()
 
   return (
-    <Flex as="header" justify="space-between">
-      <Heading as="h1" fontSize="3xl">
-        Dev Post
-      </Heading>
+    <header>
+      <h1>Dev Post</h1>
 
-      <IconButton
-        aria-label="Toggle theme"
-        onClick={toggleColorMode}
-        icon={colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
-      />
-    </Flex>
+      <select
+        id="toggle-theme"
+        name="toggle-theme"
+        value={colorMode}
+        onChange={e => toggleColorMode(e.target.value as 'dark' | 'light')}
+      >
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </header>
   )
 }
 
