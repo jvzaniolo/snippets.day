@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { Box, Button, Flex, Heading, IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Box, Button, Flex, IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 import Container from './Container'
 

@@ -1,11 +1,9 @@
-import { Box, Heading, useColorModeValue } from '@chakra-ui/react'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import ReactMarkdown from 'react-markdown'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { duotoneDark, duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { Box, Heading } from '@chakra-ui/react'
 import Container from '../../components/Container'
 import supabase from '../../lib/supabase'
+import PostContent from '../../components/Post/Content'
 
 type Post = {
   slug: string
@@ -14,8 +12,6 @@ type Post = {
 }
 
 const Post: NextPage<{ post: Post }> = ({ post }) => {
-  const syntaxHighlighterStyle = useColorModeValue(duotoneLight, duotoneDark)
-
   return (
     <Box>
       <Head>
@@ -27,31 +23,7 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
         <Heading>{post.title}</Heading>
 
         <Box as="main">
-          <ReactMarkdown
-            components={{
-              code({ node, inline, className, children, ...props }) {
-                const match = /language-(\w+)/.exec(className || '')
-
-                return !inline && match ? (
-                  <SyntaxHighlighter
-                    style={syntaxHighlighterStyle}
-                    showLineNumbers
-                    language={match[1]}
-                    PreTag="div"
-                    {...props}
-                  >
-                    {String(children).replace(/\n$/, '')}
-                  </SyntaxHighlighter>
-                ) : (
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                )
-              },
-            }}
-          >
-            {post.content}
-          </ReactMarkdown>
+          <PostContent content={post.content} />
         </Box>
       </Container>
     </Box>
@@ -61,7 +33,11 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const slug = params?.slug as string
 
-  const { data: post, error } = await supabase.from<Post>('posts').select('*').eq('slug', slug).single()
+  const { data: post, error } = await supabase
+    .from<Post>('posts')
+    .select('*')
+    .eq('slug', slug)
+    .single()
 
   if (error) {
     throw new Error(error.message)

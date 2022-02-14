@@ -21,7 +21,7 @@ const PostLink = ({ post }: { post: Post }) => {
       rounded="md"
       borderColor={borderColor}
     >
-      <Link>{post.title}</Link>
+      <Link variant="unstyled">{post.title}</Link>
     </GridItem>
   )
 }
