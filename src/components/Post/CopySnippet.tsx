@@ -2,24 +2,31 @@ import * as React from 'react'
 import { Button } from '@chakra-ui/react'
 
 const CopySnippet = ({ snippet }: { snippet: React.ReactNode }) => {
-  const [text, setText] = React.useState('Copy')
+  const [copied, setCopied] = React.useState(false)
 
   function handleClick() {
     try {
       navigator.clipboard.writeText(String(snippet).replace(/\n$/, ''))
-      setText('Copied')
+      setCopied(true)
 
       setTimeout(() => {
-        setText('Copy')
+        setCopied(false)
       }, 1500)
     } catch {
-      setText('Error')
+      setCopied(false)
     }
   }
 
   return (
-    <Button size="xs" position={'absolute'} top="2" right="2" onClick={handleClick}>
-      {text}
+    <Button
+      size="xs"
+      top="2"
+      right="2"
+      position={'absolute'}
+      colorScheme={copied ? 'green' : undefined}
+      onClick={handleClick}
+    >
+      {copied ? 'Copied' : 'Copy'}
     </Button>
   )
 }

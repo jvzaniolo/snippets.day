@@ -19,16 +19,21 @@ const Header = () => {
         </Link>
 
         <Flex as="nav">
-          <IconButton type="button" onClick={toggleColorMode} aria-label="Toggle theme" variant="ghost">
+          <IconButton
+            type="button"
+            onClick={toggleColorMode}
+            aria-label="Toggle theme"
+            variant="ghost"
+          >
             <ToggleIcon />
           </IconButton>
 
-          <Link href="/" passHref>
+          <Link href="/login" passHref>
             <Button as="a" variant="ghost">
               Login
             </Button>
           </Link>
-          <Link href="/" passHref>
+          <Link href="/sign-up" passHref>
             <Button as="a" ml="2" colorScheme="blue">
               Create Account
             </Button>
