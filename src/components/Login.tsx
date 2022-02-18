@@ -1,13 +1,3 @@
-import {
-  Button,
-  Divider,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  Text,
-} from '@chakra-ui/react'
 import * as React from 'react'
 import supabase from '../lib/supabase'
 
@@ -26,13 +16,11 @@ const Login = () => {
       onSubmit={handleSubmit}
       style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flexGrow: 1 }}
     >
-      <Heading size={'lg'} textAlign={'center'}>
-        Welcome to our Dev blog!
-      </Heading>
+      <h2>Welcome to our Dev blog!</h2>
 
-      <FormControl mt="6">
-        <FormLabel htmlFor="email">Email address</FormLabel>
-        <Input
+      <div>
+        <label htmlFor="email">Email address</label>
+        <input
           id="email"
           type="email"
           name="email"
@@ -40,32 +28,28 @@ const Login = () => {
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-      </FormControl>
+      </div>
 
-      <FormControl>
-        <FormLabel htmlFor="password">Password</FormLabel>
-        <Input
+      <div>
+        <label htmlFor="password">Password</label>
+        <input
           id="password"
           type="password"
           name="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
-      </FormControl>
+      </div>
 
-      <Button mt="6" type="submit" w="full">
-        Login
-      </Button>
+      <button type="submit">Login</button>
 
-      <Flex align={'center'} mt="6">
-        <Divider />
-        <Text mx="4">OR</Text>
-        <Divider />
-      </Flex>
+      <div>
+        <hr />
+        <span>OR</span>
+        <hr />
+      </div>
 
-      <Button mt="6" colorScheme={'github'}>
-        Github
-      </Button>
+      <button>Github</button>
     </form>
   )
 }

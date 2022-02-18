@@ -1,7 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { Box, Heading } from '@chakra-ui/react'
-import Container from '../../components/Container'
 import supabase from '../../lib/supabase'
 import PostContent from '../../components/Post/Content'
 
@@ -13,20 +11,18 @@ type Post = {
 
 const Post: NextPage<{ post: Post }> = ({ post }) => {
   return (
-    <Box>
+    <div>
       <Head>
         <title>{post.title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container flexDir="column" gap={6}>
-        <Heading>{post.title}</Heading>
+      <h1>{post.title}</h1>
 
-        <Box as="main">
-          <PostContent content={post.content} />
-        </Box>
-      </Container>
-    </Box>
+      <main>
+        <PostContent content={post.content} />
+      </main>
+    </div>
   )
 }
 

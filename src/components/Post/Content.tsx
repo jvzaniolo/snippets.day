@@ -1,12 +1,10 @@
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Box, useColorModeValue } from '@chakra-ui/react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { duotoneDark, duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import CopySnippet from './CopySnippet'
 
 const PostContent = ({ content }: { content: string }) => {
-  const syntaxHighlighterStyle = useColorModeValue(duotoneLight, duotoneDark)
   return (
     <ReactMarkdown
       components={{
@@ -14,12 +12,12 @@ const PostContent = ({ content }: { content: string }) => {
           const match = /language-(\w+)/.exec(className || '')
 
           return (
-            <Box pos="relative">
+            <div>
               <CopySnippet snippet={children} />
 
               {!inline && match ? (
                 <SyntaxHighlighter
-                  style={syntaxHighlighterStyle}
+                  style={duotoneDark}
                   showLineNumbers
                   language={match[1]}
                   PreTag="div"
@@ -32,7 +30,7 @@ const PostContent = ({ content }: { content: string }) => {
                   {children}
                 </code>
               )}
-            </Box>
+            </div>
           )
         },
       }}

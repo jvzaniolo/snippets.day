@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Button } from '@chakra-ui/react'
 
 const CopySnippet = ({ snippet }: { snippet: React.ReactNode }) => {
   const [copied, setCopied] = React.useState(false)
@@ -17,18 +16,7 @@ const CopySnippet = ({ snippet }: { snippet: React.ReactNode }) => {
     }
   }
 
-  return (
-    <Button
-      size="xs"
-      top="2"
-      right="2"
-      position={'absolute'}
-      colorScheme={copied ? 'green' : undefined}
-      onClick={handleClick}
-    >
-      {copied ? 'Copied' : 'Copy'}
-    </Button>
-  )
+  return <button onClick={handleClick}>{copied ? 'Copied' : 'Copy'}</button>
 }
 
 export default CopySnippet

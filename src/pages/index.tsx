@@ -1,10 +1,8 @@
 import * as React from 'react'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
 import PostLink from '../components/Post/Link'
 import supabase from '../lib/supabase'
-import Container from '../components/Container'
 
 type Post = {
   id: number
@@ -14,25 +12,25 @@ type Post = {
 
 const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
   return (
-    <Box as="main">
+    <div>
       <Head>
         <title>Dev Blog</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container flexDir={'column'} gap={6}>
-        <Flex flexDir={'column'} align="center">
-          <Heading size="md">Welcome to Dev Blog!</Heading>
-          <Text>Check out some of the great articles the community have written below.</Text>
-        </Flex>
+      <main>
+        <div>
+          <h2>Welcome to Dev Blog!</h2>
+          <span>Check out some of the great articles the community have written below.</span>
+        </div>
 
-        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+        <div>
           {posts.map(post => (
             <PostLink key={post.id} post={post} />
           ))}
-        </Grid>
-      </Container>
-    </Box>
+        </div>
+      </main>
+    </div>
   )
 }
 

@@ -1,56 +1,37 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { Box, Button, Flex, IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react'
-import { SunIcon, MoonIcon } from '@chakra-ui/icons'
-import Container from './Container'
 import supabase from '../lib/supabase'
 import useSession from '../hooks/useSession'
 
 const Header = () => {
   const session = useSession()
-  const { toggleColorMode } = useColorMode()
-  const bgColor = useColorModeValue('white', 'gray.800')
-  const ToggleIcon = useColorModeValue(SunIcon, MoonIcon)
 
   return (
-    <Box as="header" bgColor={bgColor} px="3" py="2">
-      <Container justify="space-between">
+    <div>
+      <div>
         <Link href="/" passHref>
-          <Button as="a" variant="unstyled" fontSize="xl" display={'flex'}>
-            🚀 Dev Blog
-          </Button>
+          <a>🚀 Dev Blog</a>
         </Link>
 
-        <Flex as="nav">
-          <IconButton
-            type="button"
-            onClick={toggleColorMode}
-            aria-label="Toggle theme"
-            variant="ghost"
-          >
-            <ToggleIcon />
-          </IconButton>
+        <div>
+          <button type="button" aria-label="Toggle theme">
+            Toggle theme
+          </button>
 
           {session?.user ? (
-            <Button variant="ghost" onClick={() => supabase.auth.signOut()}>
-              Logout
-            </Button>
+            <button onClick={() => supabase.auth.signOut()}>Logout</button>
           ) : (
             <Link href="/login" passHref>
-              <Button as="a" variant="ghost">
-                Login
-              </Button>
+              <a>Login</a>
             </Link>
           )}
 
           <Link href="/sign-up" passHref>
-            <Button as="a" ml="2" colorScheme="blue">
-              Create Account
-            </Button>
+            <button>Create Account</button>
           </Link>
-        </Flex>
-      </Container>
-    </Box>
+        </div>
+      </div>
+    </div>
   )
 }
 
