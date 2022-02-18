@@ -2,9 +2,11 @@ import * as React from 'react'
 import Link from 'next/link'
 import supabase from '../lib/supabase'
 import useSession from '../hooks/useSession'
+import useTheme from '../hooks/useTheme'
 
 const Header = () => {
   const session = useSession()
+  const { toggleTheme } = useTheme()
 
   return (
     <div>
@@ -14,7 +16,7 @@ const Header = () => {
         </Link>
 
         <div>
-          <button type="button" aria-label="Toggle theme">
+          <button type="button" aria-label="Toggle theme" onClick={toggleTheme}>
             Toggle theme
           </button>
 
