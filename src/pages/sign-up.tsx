@@ -26,7 +26,7 @@ const SignUp: NextPage = () => {
   }
 
   async function signInWithGithub() {
-    const { user, session, error } = await supabase.auth.signIn({
+    await supabase.auth.signIn({
       provider: 'github',
     })
   }

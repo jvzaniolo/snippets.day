@@ -3,8 +3,11 @@ import Link from 'next/link'
 import { Box, Button, Flex, IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 import Container from './Container'
+import supabase from '../lib/supabase'
+import useSession from '../hooks/useSession'
 
 const Header = () => {
+  const session = useSession()
   const { toggleColorMode } = useColorMode()
   const bgColor = useColorModeValue('white', 'gray.800')
   const ToggleIcon = useColorModeValue(SunIcon, MoonIcon)
@@ -28,11 +31,18 @@ const Header = () => {
             <ToggleIcon />
           </IconButton>
 
-          <Link href="/login" passHref>
-            <Button as="a" variant="ghost">
-              Login
+          {session?.user ? (
+            <Button variant="ghost" onClick={() => supabase.auth.signOut()}>
+              Logout
             </Button>
-          </Link>
+          ) : (
+            <Link href="/login" passHref>
+              <Button as="a" variant="ghost">
+                Login
+              </Button>
+            </Link>
+          )}
+
           <Link href="/sign-up" passHref>
             <Button as="a" ml="2" colorScheme="blue">
               Create Account

@@ -1,3 +1,4 @@
+import * as React from 'react'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
