@@ -26,7 +26,7 @@ const Header = () => {
           </button>
 
           {session?.user ? (
-            <button onClick={() => supabase.auth.signOut()} className="button">
+            <button onClick={() => supabase.auth.signOut()} className="button-primary ml-3">
               Logout
             </button>
           ) : (

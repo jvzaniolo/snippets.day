@@ -10,7 +10,7 @@ const PostContent = ({ content }: { content: string }) => {
 
   return (
     <ReactMarkdown
-      className="font-serif"
+      className="mx-auto max-w-screen-xl px-4 font-serif"
       components={{
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || '')
