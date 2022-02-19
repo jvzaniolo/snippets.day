@@ -12,13 +12,10 @@ const Login = () => {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flexGrow: 1 }}
-    >
+    <form onSubmit={handleSubmit} className="flex flex-col">
       <h2>Welcome to our Dev blog!</h2>
 
-      <div>
+      <div className="flex flex-col">
         <label htmlFor="email">Email address</label>
         <input
           id="email"
@@ -30,7 +27,7 @@ const Login = () => {
         />
       </div>
 
-      <div>
+      <div className="flex flex-col">
         <label htmlFor="password">Password</label>
         <input
           id="password"
@@ -43,10 +40,10 @@ const Login = () => {
 
       <button type="submit">Login</button>
 
-      <div>
-        <hr />
-        <span>OR</span>
-        <hr />
+      <div className="flex items-center space-x-6">
+        <hr className="w-full border-neutral-600 bg-neutral-600 text-neutral-600" />
+        <span className="text-neutral-300">OR</span>
+        <hr className="w-full border-neutral-600 bg-neutral-600 text-neutral-600" />
       </div>
 
       <button>Github</button>

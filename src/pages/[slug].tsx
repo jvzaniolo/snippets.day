@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import supabase from '../../lib/supabase'
-import PostContent from '../../components/Post/Content'
+import supabase from '../lib/supabase'
+import PostContent from '../components/Post/Content'
 
 type Post = {
   slug: string
@@ -17,7 +17,7 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>{post.title}</h1>
+      <h1 className="my-8 text-center font-serif text-5xl">{post.title}</h1>
 
       <main>
         <PostContent content={post.content} />

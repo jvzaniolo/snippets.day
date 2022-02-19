@@ -12,7 +12,7 @@ const Header = () => {
   const icon = useThemeValue(<FiMoon />, <FiSun />)
 
   return (
-    <header className="bg-neutral-100 px-4 py-2 shadow-md dark:bg-neutral-700">
+    <header className="bg-neutral-50 px-4 py-2 shadow-md dark:bg-neutral-700">
       <div className="mx-auto flex max-w-screen-xl justify-between">
         <Link href="/" passHref>
           <a className="button text-lg outline-2 hover:outline dark:outline-indigo-400">

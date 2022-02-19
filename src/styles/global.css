@@ -4,7 +4,7 @@
 
 .button {
   @apply rounded px-3 py-1.5 transition-colors;
-  @apply font-semibold;
+  @apply font-medium;
 }
 .button:hover {
   @apply text-indigo-600 dark:text-indigo-300;
@@ -12,7 +12,7 @@
 
 .button-primary {
   @apply rounded px-4 py-1.5 transition-colors;
-  @apply bg-indigo-600 font-semibold text-white dark:bg-indigo-600 dark:text-white;
+  @apply bg-indigo-600 font-medium text-white dark:bg-indigo-600 dark:text-white;
 }
 .button-primary:hover {
   @apply bg-indigo-500 shadow-md dark:bg-indigo-500;

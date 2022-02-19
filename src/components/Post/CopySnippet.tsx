@@ -16,7 +16,14 @@ const CopySnippet = ({ snippet }: { snippet: React.ReactNode }) => {
     }
   }
 
-  return <button onClick={handleClick}>{copied ? 'Copied' : 'Copy'}</button>
+  return (
+    <button
+      onClick={handleClick}
+      className="absolute top-5 right-4 z-10 rounded bg-indigo-500 py-1 px-2 text-xs text-white dark:bg-indigo-600"
+    >
+      {copied ? 'Copied' : 'Copy'}
+    </button>
+  )
 }
 
 export default CopySnippet
