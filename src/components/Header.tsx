@@ -26,16 +26,20 @@ const Header = () => {
           </button>
 
           {session?.user ? (
-            <button onClick={() => supabase.auth.signOut()}>Logout</button>
+            <button onClick={() => supabase.auth.signOut()} className="button">
+              Logout
+            </button>
           ) : (
-            <Link href="/login" passHref>
-              <a className="button">Login</a>
-            </Link>
-          )}
+            <>
+              <Link href="/login" passHref>
+                <a className="button">Login</a>
+              </Link>
 
-          <Link href="/sign-up" passHref>
-            <button className="button-primary ml-3">Create Account</button>
-          </Link>
+              <Link href="/sign-up" passHref>
+                <button className="button-primary ml-3">Create Account</button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
