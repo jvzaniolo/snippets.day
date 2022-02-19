@@ -3,37 +3,42 @@ import Link from 'next/link'
 import supabase from '../lib/supabase'
 import useSession from '../hooks/useSession'
 import useTheme from '../hooks/useTheme'
+import useThemeValue from '../hooks/useThemeValue'
+import { FiSun, FiMoon } from 'react-icons/fi'
 
 const Header = () => {
   const session = useSession()
   const { toggleTheme } = useTheme()
+  const icon = useThemeValue(<FiMoon />, <FiSun />)
 
   return (
-    <div>
-      <div>
+    <header className="bg-neutral-100 px-4 py-2 shadow-md dark:bg-neutral-700">
+      <div className="mx-auto flex max-w-screen-xl justify-between">
         <Link href="/" passHref>
-          <a>🚀 Dev Blog</a>
+          <a className="button text-lg outline-2 hover:outline dark:outline-indigo-400">
+            🚀 Dev Blog
+          </a>
         </Link>
 
-        <div>
-          <button type="button" aria-label="Toggle theme" onClick={toggleTheme}>
-            Toggle theme
+        <div className="flex items-center">
+          <button type="button" aria-label="Toggle theme" onClick={toggleTheme} className="button">
+            {icon}
           </button>
 
           {session?.user ? (
             <button onClick={() => supabase.auth.signOut()}>Logout</button>
           ) : (
             <Link href="/login" passHref>
-              <a>Login</a>
+              <a className="button">Login</a>
             </Link>
           )}
 
           <Link href="/sign-up" passHref>
-            <button>Create Account</button>
+            <button className="button-primary ml-3">Create Account</button>
           </Link>
         </div>
       </div>
-    </div>
+    </header>
   )
 }
 
