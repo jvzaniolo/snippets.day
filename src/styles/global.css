@@ -7,7 +7,7 @@
   @apply font-medium;
 }
 .button:hover {
-  @apply text-indigo-600 dark:text-indigo-300;
+  @apply dark:bg-neutral-800;
 }
 
 .button-primary {

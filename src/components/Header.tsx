@@ -15,13 +15,16 @@ const Header = () => {
     <header className="bg-neutral-50 px-4 py-2 shadow-md dark:bg-neutral-700">
       <div className="mx-auto flex max-w-screen-xl justify-between">
         <Link href="/" passHref>
-          <a className="button text-lg outline-2 hover:outline dark:outline-indigo-400">
-            🚀 Dev Blog
-          </a>
+          <a className="button text-lg">🚀 Dev Blog</a>
         </Link>
 
         <div className="flex items-center">
-          <button type="button" aria-label="Toggle theme" onClick={toggleTheme} className="button">
+          <button
+            type="button"
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+            className="button !py-2.5"
+          >
             {icon}
           </button>
 
@@ -32,7 +35,7 @@ const Header = () => {
           ) : (
             <>
               <Link href="/login" passHref>
-                <a className="button">Login</a>
+                <a className="button ml-1">Login</a>
               </Link>
 
               <Link href="/sign-up" passHref>
