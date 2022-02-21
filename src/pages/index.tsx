@@ -14,14 +14,20 @@ const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
   return (
     <div>
       <Head>
-        <title>Dev Blog</title>
+        <title>Snippets</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="mx-auto max-w-screen-xl space-y-10 px-4 pt-8">
+      <main className="mx-auto max-w-screen-lg space-y-10 px-4 pt-8">
         <div className="flex flex-col space-y-4 text-center font-serif">
-          <h2 className="text-5xl">Welcome to `Dev` blog!</h2>
-          <span className="text-lg font-light text-neutral-500 dark:text-neutral-300">
+          <h2 className="text-5xl">
+            Welcome to `
+            <span className=" bg-gradient-to-br from-sky-500 via-indigo-500 to-purple-500 bg-clip-text font-semibold text-transparent dark:from-sky-500 dark:via-indigo-400 dark:to-purple-400">
+              Snippets
+            </span>
+            `
+          </h2>
+          <span className="text-lg font-light text-moon-500 dark:text-moon-300">
             Check out some of the great articles the community have written below.
           </span>
         </div>

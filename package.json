@@ -1,5 +1,5 @@
 {
-  "name": "my-dev-blog",
+  "name": "snippets.dev",
   "private": true,
   "scripts": {
     "dev": "next dev",

@@ -43,12 +43,12 @@ const Login = () => {
 
       <form
         onSubmit={onSubmit}
-        className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg p-6 shadow-2xl dark:shadow-neutral-900"
+        className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg p-6 shadow-2xl dark:shadow-moon-900"
       >
         {error && <span className="text-red-300">{error.message}</span>}
 
         <div className="flex flex-col space-y-2">
-          <label htmlFor="email" className="dark:text-neutral-300">
+          <label htmlFor="email" className="dark:text-moon-300">
             Email address
           </label>
           <input
@@ -56,20 +56,20 @@ const Login = () => {
             type="email"
             {...register('email', { required: true })}
             placeholder="email@example.com"
-            className="w-full rounded p-2 outline-indigo-500 focus:outline focus:outline-2 dark:bg-neutral-700 dark:text-neutral-100 dark:placeholder:text-neutral-500"
+            className="w-full rounded p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700 dark:text-moon-100 dark:placeholder:text-moon-500"
           />
           {errors.email && <span className="text-sm text-red-300">Email is required.</span>}
         </div>
 
         <div className="flex flex-col space-y-2">
-          <label htmlFor="password" className="dark:text-neutral-300">
+          <label htmlFor="password" className="dark:text-moon-300">
             Password
           </label>
           <input
             id="password"
             type="password"
             {...register('password', { required: true })}
-            className="w-full rounded p-2 outline-indigo-500 focus:outline focus:outline-2 dark:bg-neutral-700 dark:text-neutral-100 dark:placeholder:text-neutral-500"
+            className="w-full rounded p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700 dark:text-moon-100 dark:placeholder:text-moon-500"
           />
           {errors.password && <span className="text-sm text-red-300">Password is required.</span>}
         </div>
@@ -79,9 +79,9 @@ const Login = () => {
         </button>
 
         <div className="flex items-center space-x-6">
-          <hr className="w-full dark:border-neutral-600 dark:bg-neutral-600 dark:text-neutral-600" />
-          <span className="dark:text-neutral-300">OR</span>
-          <hr className="w-full dark:border-neutral-600 dark:bg-neutral-600 dark:text-neutral-600" />
+          <hr className="w-full dark:border-moon-600 dark:bg-moon-600 dark:text-moon-600" />
+          <span className="dark:text-moon-300">OR</span>
+          <hr className="w-full dark:border-moon-600 dark:bg-moon-600 dark:text-moon-600" />
         </div>
 
         <button

@@ -2,18 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.container {
+  @apply mx-auto max-w-screen-lg;
+}
+
 .button {
   @apply rounded px-3 py-1.5 transition-colors;
   @apply font-medium;
 }
 .button:hover {
-  @apply dark:bg-neutral-800;
+  @apply bg-moon-200 dark:bg-moon-600;
 }
 
 .button-primary {
   @apply rounded px-4 py-1.5 transition-colors;
-  @apply bg-indigo-600 font-medium text-white dark:bg-indigo-600 dark:text-white;
+  @apply bg-primary-600 font-medium text-white dark:bg-primary-600 dark:text-white;
 }
 .button-primary:hover {
-  @apply bg-indigo-500 shadow-md dark:bg-indigo-500;
+  @apply bg-primary-500 shadow-md dark:bg-primary-500;
 }

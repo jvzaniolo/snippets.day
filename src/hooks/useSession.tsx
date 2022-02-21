@@ -5,9 +5,11 @@ const useSession = () => {
   const [session, setSession] = React.useState(supabase.auth.session())
 
   React.useEffect(() => {
-    supabase.auth.onAuthStateChange((_, session) => {
+    const { data: subscription } = supabase.auth.onAuthStateChange((_, session) => {
       setSession(session)
     })
+
+    return () => subscription?.unsubscribe()
   }, [])
 
   return session

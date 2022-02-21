@@ -11,7 +11,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body className="bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-50">
+      <body className="bg-moon-50 text-moon-800 dark:bg-moon-800 dark:text-moon-50">
         <Main />
         <NextScript />
       </body>
