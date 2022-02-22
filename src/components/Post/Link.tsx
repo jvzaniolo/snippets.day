@@ -5,6 +5,7 @@ type Post = {
   id: number
   slug: string
   title: string
+  user_id: string
 }
 
 const PostLink = ({ post }: { post: Post }) => {

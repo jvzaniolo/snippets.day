@@ -3,7 +3,6 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { FiGithub } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
-import type { ApiError } from '@supabase/supabase-js'
 import supabase from '../lib/supabase'
 
 type FormData = {
@@ -14,28 +13,27 @@ type FormData = {
 
 const SignUp: NextPage = () => {
   const router = useRouter()
-  const [error, setError] = React.useState<ApiError | null>(null)
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<FormData>()
 
   const onSubmit = handleSubmit(async data => {
     const { email, password } = data
 
-    const { user, error: formError } = await supabase.auth.signIn({ email, password })
+    const { user, error } = await supabase.auth.signUp({ email, password })
 
     if (user) {
       router.push('/')
     }
 
-    if (!error) {
+    if (error) {
+      alert(error.message)
+    } else {
       reset()
     }
-
-    setError(formError)
   })
 
   return (
@@ -46,8 +44,6 @@ const SignUp: NextPage = () => {
         onSubmit={onSubmit}
         className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg p-6 shadow-2xl dark:shadow-moon-900"
       >
-        {error && <span className="text-red-300">{error.message}</span>}
-
         <div className="flex flex-col space-y-2">
           <label htmlFor="email" className="dark:text-moon-300">
             Email address
@@ -91,7 +87,7 @@ const SignUp: NextPage = () => {
         </div>
 
         <button type="submit" className="button-primary !mt-10 !py-2.5 text-lg">
-          Create Account
+          {isSubmitting ? 'Creating...' : 'Create Account'}
         </button>
 
         <div className="flex items-center space-x-6">

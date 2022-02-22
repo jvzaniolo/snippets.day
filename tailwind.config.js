@@ -13,7 +13,7 @@ module.exports = {
     },
     colors: {
       ...colors,
-      moon: colors.neutral,
+      moon: colors.gray,
       primary: colors.indigo,
     },
   },
