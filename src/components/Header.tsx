@@ -1,10 +1,11 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { FiSun, FiMoon } from 'react-icons/fi'
-import supabase from '~/lib/supabase'
 import useTheme from '~/hooks/useTheme'
 import useSession from '~/hooks/useSession'
 import useThemeValue from '~/hooks/useThemeValue'
+import Avatar from './Avatar'
+import AvatarMenu from './AvatarMenu'
 
 const Header = () => {
   const session = useSession()
@@ -12,7 +13,7 @@ const Header = () => {
   const icon = useThemeValue(<FiMoon />, <FiSun />)
 
   return (
-    <header className="z-20 flex h-14 items-center bg-moon-50 px-4 py-2 shadow-md dark:bg-moon-800 dark:shadow-xl">
+    <header className="z-20 flex h-12 items-center bg-moon-50 px-4 py-2 shadow-md dark:bg-moon-800 dark:shadow-xl">
       <div className="container-lg flex justify-between">
         <Link href="/">
           <a className="button-ghost px-2 py-1 text-lg font-medium tracking-wide">🚀 Snippets</a>
@@ -29,12 +30,9 @@ const Header = () => {
           </button>
 
           {session?.user ? (
-            <button
-              onClick={() => supabase.auth.signOut()}
-              className="button-primary ml-2 h-9 px-2"
-            >
-              Logout
-            </button>
+            <AvatarMenu className="ml-2 flex h-8 w-8">
+              <Avatar name="João Vitor" className="select-none" />
+            </AvatarMenu>
           ) : (
             <>
               <Link href="/login" passHref>
@@ -42,7 +40,7 @@ const Header = () => {
               </Link>
 
               <Link href="/sign-up" passHref>
-                <button className="button-primary ml-2 h-9 px-2">Create Account</button>
+                <button className="button-primary ml-2 h-8 px-2">Create Account</button>
               </Link>
             </>
           )}

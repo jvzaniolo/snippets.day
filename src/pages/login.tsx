@@ -42,7 +42,7 @@ const Login: NextPage = () => {
 
       <form
         onSubmit={onSubmit}
-        className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg p-6 shadow-2xl dark:shadow-moon-800"
+        className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg bg-white p-6 shadow-2xl dark:bg-moon-900 dark:shadow-black"
       >
         <div className="flex flex-col space-y-2">
           <label htmlFor="email" className="dark:text-moon-300">
@@ -53,9 +53,11 @@ const Login: NextPage = () => {
             type="email"
             {...register('email', { required: true })}
             placeholder="email@example.com"
-            className="w-full rounded p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700 dark:text-moon-100 dark:placeholder:text-moon-500"
+            className="w-full rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-800 dark:text-moon-100 dark:placeholder:text-moon-500"
           />
-          {errors.email && <span className="text-sm text-red-300">Email is required.</span>}
+          {errors.email && (
+            <span className="text-sm text-red-400 dark:text-red-300">Email is required.</span>
+          )}
         </div>
 
         <div className="flex flex-col space-y-2">
@@ -66,12 +68,14 @@ const Login: NextPage = () => {
             id="password"
             type="password"
             {...register('password', { required: true })}
-            className="w-full rounded p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700 dark:text-moon-100 dark:placeholder:text-moon-500"
+            className="w-full rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-800 dark:text-moon-100 dark:placeholder:text-moon-500"
           />
-          {errors.password && <span className="text-sm text-red-300">Password is required.</span>}
+          {errors.password && (
+            <span className="text-sm text-red-400 dark:text-red-300">Password is required.</span>
+          )}
         </div>
 
-        <button type="submit" className="mt-10 py-2.5 text-lg">
+        <button type="submit" className="button-primary !mt-10 py-2 text-lg">
           Login
         </button>
 
@@ -84,7 +88,7 @@ const Login: NextPage = () => {
         <button
           type="button"
           onClick={() => supabase.auth.signIn({ provider: 'github' })}
-          className="flex items-center justify-center gap-4 rounded bg-black py-2.5 text-lg text-white transition-transform hover:-translate-y-0.5 "
+          className="flex items-center justify-center gap-4 rounded bg-black py-2 text-lg text-white"
         >
           <FiGithub />
           Github

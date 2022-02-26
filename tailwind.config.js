@@ -20,7 +20,7 @@ module.exports = {
           800: '#212529',
           900: '#171A1C',
         },
-        primary: colors.indigo,
+        primary: colors.orange,
       },
     },
     fontFamily: {
