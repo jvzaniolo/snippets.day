@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { getPost, type Post } from 'utils/post'
+import { getPost, type Post } from '~/lib/post'
 
 const Post: NextPage<{ post: Post }> = ({ post }) => {
   return (

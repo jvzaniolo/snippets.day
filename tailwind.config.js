@@ -18,6 +18,7 @@ module.exports = {
           600: '#495057',
           700: '#343a40',
           800: '#212529',
+          900: '#171A1C',
         },
         primary: colors.indigo,
       },

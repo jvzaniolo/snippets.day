@@ -15,15 +15,23 @@ html {
 }
 
 body {
-  @apply flex h-full flex-col overflow-hidden text-moon-800 dark:bg-moon-800 dark:text-moon-50;
+  @apply flex h-full flex-col overflow-hidden bg-white text-moon-900 dark:bg-moon-900 dark:text-white;
 }
 
 .gradient-primary {
   @apply bg-gradient-to-br from-pink-500 via-orange-500 to-yellow-500;
 }
 
+.button {
+  @apply flex items-center justify-center rounded;
+}
+
+.button-ghost {
+  @apply button active:bg-moon-100 dark:active:bg-moon-700 lg:hover:bg-moon-100 lg:dark:hover:bg-moon-700;
+}
+
 .button-primary {
-  @apply gradient-primary flex items-center justify-center rounded text-white transition-shadow hover:shadow-lg;
+  @apply button gradient-primary text-white transition-shadow hover:shadow-lg;
 }
 
 .container-lg {
@@ -54,11 +62,11 @@ body {
 }
 
 .post-content pre {
-  @apply overflow-x-auto rounded-lg bg-moon-100 p-2 dark:bg-moon-700 md:p-3 lg:p-4;
+  @apply overflow-x-auto rounded-lg bg-moon-50 p-2 dark:bg-moon-800 md:p-3 lg:p-4;
 }
 
 .post-content :not(pre) code {
-  @apply mx-1 rounded bg-moon-100 py-0.5 px-2 dark:bg-moon-700;
+  @apply mx-1 rounded bg-moon-50 py-0.5 px-2 dark:bg-moon-800;
 }
 
 .post-content p {

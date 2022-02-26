@@ -2,7 +2,7 @@ import * as React from 'react'
 import type { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
-import { getPosts, type Post } from 'utils/post'
+import { getPosts, type Post } from '~/lib/post'
 
 const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
   return (
@@ -30,13 +30,13 @@ const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
           {posts.map(post => (
             <li
               key={post.slug}
-              className="dark:active:shadow-moon-900 flex rounded p-4 shadow-lg transition-shadow active:shadow-xl dark:bg-moon-700 dark:hover:shadow-black lg:hover:shadow-xl"
+              className="flex rounded p-4 shadow-lg transition-shadow active:shadow-xl dark:bg-moon-800 dark:hover:shadow-black dark:active:shadow-black lg:hover:shadow-lg"
             >
               <Link href={post.slug}>
                 <a className="flex flex-1 flex-col">
                   {post.title}
 
-                  <span className="mt-8 text-sm dark:text-moon-400"># {post.slug}</span>
+                  <span className="mt-8 text-sm dark:text-moon-500"># {post.slug}</span>
                 </a>
               </Link>
             </li>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import supabase from 'utils/supabase'
+import supabase from '~/lib/supabase'
 
 const useSession = () => {
   const [session, setSession] = React.useState(supabase.auth.session())

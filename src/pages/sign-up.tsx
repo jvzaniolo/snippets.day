@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { FiGithub } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
-import supabase from 'utils/supabase'
+import supabase from '~/lib/supabase'
 
 type FormData = {
   email: string

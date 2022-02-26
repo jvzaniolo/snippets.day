@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { FiGithub } from 'react-icons/fi'
-import supabase from 'utils/supabase'
+import supabase from '~/lib/supabase'
 
 type FormData = {
   email: string
@@ -38,7 +38,7 @@ const Login: NextPage = () => {
 
   return (
     <div className="mx-auto flex flex-col space-y-8 ">
-      <h1 className="mt-8 text-center font-serif text-5xl">Welcome back to `Dev` blog 😊</h1>
+      <h1 className="mt-8 text-center font-serif text-5xl">Welcome back</h1>
 
       <form
         onSubmit={onSubmit}
