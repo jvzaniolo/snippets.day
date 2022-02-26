@@ -11,16 +11,19 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="container-lg mx-auto p-4 !pt-0 !pb-10 md:p-6 lg:flex lg:gap-8">
+      <div className="container-lg p-4 !pt-0 !pb-10 md:p-6 lg:flex lg:gap-8">
         <main className="flex-1">
           {post.cover && (
-            <Image
-              src={post.cover}
-              alt="Article's cover"
-              loading="lazy"
-              width="100%"
-              height={500}
-            />
+            <div className="relative w-full object-cover lg:h-96">
+              <Image
+                src={post.cover.src}
+                alt="Article's cover"
+                placeholder="blur"
+                layout="fill"
+                blurDataURL={post.cover.blurData}
+                priority
+              />
+            </div>
           )}
 
           <h1 className="my-8 font-serif text-3xl md:my-10 md:text-4xl lg:text-5xl">

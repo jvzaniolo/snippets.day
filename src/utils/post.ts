@@ -1,5 +1,6 @@
-import parseFrontMatter from 'front-matter'
 import { marked } from 'marked'
+import parseFrontMatter from 'front-matter'
+import { getPlaiceholder } from 'plaiceholder'
 import supabase from './supabase'
 
 export type Post = {
@@ -7,7 +8,10 @@ export type Post = {
   slug: string
   title: string
   content: string
-  cover: string
+  cover: {
+    src: string
+    blurData: string
+  }
   nav: Array<{ id: string; content: string }>
 }
 
@@ -32,7 +36,12 @@ export async function getPost(slug: string) {
 
   return {
     ...post,
-    cover: `https://ihmjgncpquwctrvdmwey.supabase.in/storage/v1/object/public/covers/${post.id}`,
+    cover: {
+      src: `https://ihmjgncpquwctrvdmwey.supabase.in/storage/v1/object/public/covers/${post.id}`,
+      blurData: await getPlaiceholder(
+        `https://ihmjgncpquwctrvdmwey.supabase.in/storage/v1/object/public/covers/${post.id}`,
+      ).then(({ base64 }) => base64),
+    },
     content: marked(body),
     nav: marked(body)
       .match(/<h1.*/gm)

@@ -16,7 +16,7 @@ const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
         <div className="flex flex-col space-y-3 text-center font-serif md:space-y-4">
           <h2 className="text-3xl md:text-5xl">
             Welcome to `
-            <span className="bg-gradient-to-br from-pink-500 via-orange-500 to-yellow-500 bg-clip-text font-semibold text-transparent dark:from-pink-500 dark:via-orange-500 dark:to-yellow-500">
+            <span className="gradient-primary bg-clip-text font-semibold text-transparent">
               Snippets
             </span>
             `
@@ -30,7 +30,7 @@ const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
           {posts.map(post => (
             <li
               key={post.slug}
-              className="flex rounded p-4 shadow-lg transition-shadow active:shadow-xl dark:bg-moon-700 dark:hover:shadow-black dark:active:shadow-moon-900 lg:hover:shadow-xl"
+              className="dark:active:shadow-moon-900 flex rounded p-4 shadow-lg transition-shadow active:shadow-xl dark:bg-moon-700 dark:hover:shadow-black lg:hover:shadow-xl"
             >
               <Link href={post.slug}>
                 <a className="flex flex-1 flex-col">

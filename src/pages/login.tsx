@@ -42,7 +42,7 @@ const Login: NextPage = () => {
 
       <form
         onSubmit={onSubmit}
-        className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg p-6 shadow-2xl dark:shadow-moon-900"
+        className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg p-6 shadow-2xl dark:shadow-moon-800"
       >
         <div className="flex flex-col space-y-2">
           <label htmlFor="email" className="dark:text-moon-300">
@@ -71,7 +71,7 @@ const Login: NextPage = () => {
           {errors.password && <span className="text-sm text-red-300">Password is required.</span>}
         </div>
 
-        <button type="submit" className="button-primary !mt-10 !py-2.5 text-lg">
+        <button type="submit" className="mt-10 py-2.5 text-lg">
           Login
         </button>
 

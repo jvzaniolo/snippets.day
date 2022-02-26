@@ -33,7 +33,7 @@ const Header = () => {
           {session?.user ? (
             <button
               onClick={() => supabase.auth.signOut()}
-              className="ml-2 flex h-9 items-center rounded bg-gradient-to-br from-pink-500 via-orange-500 to-yellow-500 px-2 text-white transition-shadow hover:shadow-lg"
+              className="button-primary ml-2 h-9 px-2"
             >
               Logout
             </button>
@@ -46,9 +46,7 @@ const Header = () => {
               </Link>
 
               <Link href="/sign-up" passHref>
-                <button className="ml-2 flex h-9 items-center rounded bg-gradient-to-br from-pink-500 via-orange-500 to-yellow-500 px-2 text-white transition-shadow hover:shadow-lg">
-                  Create Account
-                </button>
+                <button className="button-primary ml-2 h-9 px-2">Create Account</button>
               </Link>
             </>
           )}
