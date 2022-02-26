@@ -2,22 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-.container {
-  @apply mx-auto max-w-screen-lg;
+.container-lg {
+  @apply mx-auto w-full max-w-screen-lg;
 }
 
-.button {
-  @apply rounded px-3 py-1.5 transition-colors;
-  @apply font-medium;
-}
-.button:hover {
-  @apply bg-moon-200 dark:bg-moon-600;
+.container-md {
+  @apply mx-auto w-full max-w-screen-md;
 }
 
-.button-primary {
-  @apply rounded px-4 py-1.5 transition-colors;
-  @apply bg-primary-600 font-medium text-white dark:bg-primary-600 dark:text-white;
+.post-content {
+  @apply flex flex-1 flex-col space-y-6 font-serif text-sm leading-6 tracking-wide md:space-y-4 md:text-base md:leading-7 md:tracking-normal;
 }
-.button-primary:hover {
-  @apply bg-primary-500 shadow-md dark:bg-primary-500;
+
+.post-content a {
+  @apply text-orange-400 no-underline dark:text-orange-300;
+}
+.post-content a:hover {
+  @apply underline underline-offset-1;
+}
+
+.post-content h1 {
+  @apply !mt-10 text-xl md:text-2xl;
+}
+
+.post-content h2 {
+  @apply text-xl;
+}
+
+.post-content pre {
+  @apply overflow-x-auto rounded-lg bg-moon-100 p-2 dark:bg-moon-700 md:p-3 lg:p-4;
+}
+
+.post-content :not(pre) code {
+  @apply mx-1 rounded bg-moon-100 py-0.5 px-2 dark:bg-moon-700;
+}
+
+.post-content p {
+  @apply text-moon-700 dark:text-moon-200;
 }

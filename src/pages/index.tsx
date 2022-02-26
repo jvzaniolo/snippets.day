@@ -1,15 +1,8 @@
 import * as React from 'react'
 import type { GetServerSideProps, NextPage } from 'next'
+import Link from 'next/link'
 import Head from 'next/head'
-import PostLink from '../components/Post/Link'
-import supabase from '../lib/supabase'
-
-type Post = {
-  id: number
-  slug: string
-  title: string
-  user_id: string
-}
+import { getPosts, type Post } from 'utils/post'
 
 const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
   return (
@@ -19,11 +12,11 @@ const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container space-y-10 px-4 pt-8">
+      <main className="container-lg space-y-10 px-4 pt-8">
         <div className="flex flex-col space-y-3 text-center font-serif md:space-y-4">
           <h2 className="text-3xl md:text-5xl">
             Welcome to `
-            <span className=" bg-gradient-to-br from-sky-500 via-indigo-500 to-purple-500 bg-clip-text font-semibold text-transparent dark:from-sky-500 dark:via-indigo-400 dark:to-purple-400">
+            <span className="bg-gradient-to-br from-pink-500 via-orange-500 to-yellow-500 bg-clip-text font-semibold text-transparent dark:from-pink-500 dark:via-orange-500 dark:to-yellow-500">
               Snippets
             </span>
             `
@@ -33,28 +26,31 @@ const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
           </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {posts.map(post => (
-            <PostLink key={post.id} post={post} />
+            <li
+              key={post.slug}
+              className="flex rounded p-4 shadow-lg transition-shadow active:shadow-xl dark:bg-moon-700 dark:hover:shadow-black dark:active:shadow-moon-900 lg:hover:shadow-xl"
+            >
+              <Link href={post.slug}>
+                <a className="flex flex-1 flex-col">
+                  {post.title}
+
+                  <span className="mt-8 text-sm dark:text-moon-400"># {post.slug}</span>
+                </a>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </main>
     </div>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { data: posts, error } = await supabase
-    .from<Post>('posts')
-    .select('id, title, slug, created_at')
-
-  if (error) {
-    throw new Error(error.message)
-  }
-
   return {
     props: {
-      posts: posts,
+      posts: await getPosts(),
     },
   }
 }
