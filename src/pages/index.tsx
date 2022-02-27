@@ -1,10 +1,11 @@
 import * as React from 'react'
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
-import { getPosts, type Post } from '~/lib/post'
+import { getPostsWithProfile, type PostWithProfile } from '~/lib/post'
+import Avatar from '~/components/Avatar'
 
-const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
+const Home: NextPage<{ posts: Array<PostWithProfile> }> = ({ posts }) => {
   return (
     <div>
       <Head>
@@ -13,32 +14,37 @@ const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
       </Head>
 
       <main className="container-lg space-y-10 px-4 pt-8">
-        <div className="flex flex-col space-y-3 text-center font-serif md:space-y-4">
-          <h2 className="text-3xl md:text-5xl">
-            Welcome to `
-            <span className="gradient-primary bg-clip-text font-semibold text-transparent">
-              Snippets
-            </span>
-            `
-          </h2>
-          <span className="text-sm font-light text-moon-500 dark:text-moon-300 md:text-lg">
-            Check out some of the great articles the community have written below.
-          </span>
-        </div>
-
-        <ul className="grid grid-cols-2 gap-4 md:grid-cols-3">
+        <ul>
           {posts.map(post => (
-            <li
-              key={post.slug}
-              className="flex rounded p-4 shadow-lg transition-shadow active:shadow-xl dark:bg-moon-800 dark:hover:shadow-black dark:active:shadow-black lg:hover:shadow-lg"
-            >
+            <li key={post.id} className="flex flex-col">
+              <div className="flex items-center">
+                <Avatar name={post.profiles.first_name} className="mr-2 h-8 w-8" />
+                <span className="mr-2 text-sm">{post.profiles.first_name}</span>
+                <span className="text-sm dark:text-moon-400">
+                  {new Intl.DateTimeFormat('en-US', {
+                    dateStyle: 'medium',
+                  }).format(new Date(post.created_at))}
+                </span>
+              </div>
               <Link href={post.slug}>
-                <a className="flex flex-1 flex-col">
-                  {post.title}
+                <a>
+                  <h2 className="mt-2 text-2xl font-medium">{post.title}</h2>
 
-                  <span className="mt-8 text-sm dark:text-moon-500"># {post.slug}</span>
+                  <span className="mt-2 font-serif text-moon-300">
+                    John is an awesome co-worker and a software engineer. He built the Snippets
+                    program all by himself. He is a loving boyfriend and a cool brother. He loves
+                    eating and playing video-games.
+                  </span>
                 </a>
               </Link>
+
+              <div className="mt-8 flex items-center gap-3">
+                <span className="rounded-full bg-moon-700 px-3 py-1 text-xs font-semibold text-white">
+                  JavaScript
+                </span>
+                <span className="text-xs text-moon-400">8 min read</span>
+              </div>
+              {/* Separator <hr className="my-10 border-moon-700 bg-moon-700 fill-moon-700 text-moon-700" /> */}
             </li>
           ))}
         </ul>
@@ -47,10 +53,10 @@ const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      posts: await getPosts(),
+      posts: await getPostsWithProfile(),
     },
   }
 }

@@ -1,7 +1,24 @@
 import { marked } from 'marked'
 import parseFrontMatter from 'front-matter'
-import { getPlaiceholder } from 'plaiceholder'
+// import { getPlaiceholder } from 'plaiceholder'
 import supabase from './supabase'
+
+export type Profile = {
+  id: string
+  email: string
+  first_name: string
+  last_name: string
+  biography: string
+}
+
+export type PostWithProfile = {
+  id: string
+  slug: string
+  title: string
+  content: string
+  created_at: string
+  profiles: Profile
+}
 
 export type Post = {
   id: string
@@ -21,6 +38,12 @@ export async function getPosts() {
   return posts
 }
 
+export async function getPostsWithProfile() {
+  const { data: posts } = await supabase.from<Post>('posts').select('*,profiles(*)')
+
+  return posts
+}
+
 export async function getPost(slug: string) {
   const { data: post } = await supabase.from<Post>('posts').select('*').eq('slug', slug).single()
 
@@ -36,22 +59,16 @@ export async function getPost(slug: string) {
 
   return {
     ...post,
-    cover: {
-      src: `https://ihmjgncpquwctrvdmwey.supabase.in/storage/v1/object/public/covers/${post.id}`,
-      blurData: await getPlaiceholder(
-        `https://ihmjgncpquwctrvdmwey.supabase.in/storage/v1/object/public/covers/${post.id}`,
-      ).then(({ base64 }) => base64),
-    },
     content: marked(body),
-    nav: marked(body)
-      .match(/<h1.*/gm)
-      ?.map(title => {
-        const [, id, content] = new RegExp(/id="(.*)">(.*)</g).exec(title) as Array<string>
+    // nav: marked(body)
+    //   .match(/<h1.*/gm)
+    //   ?.map(title => {
+    //     const [, id, content] = new RegExp(/id="(.*)">(.*)</g).exec(title) as Array<string>
 
-        return {
-          id,
-          content,
-        }
-      }),
+    //     return {
+    //       id,
+    //       content,
+    //     }
+    //   }),
   }
 }

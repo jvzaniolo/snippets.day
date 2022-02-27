@@ -13,7 +13,7 @@ const Header = () => {
   const icon = useThemeValue(<FiMoon />, <FiSun />)
 
   return (
-    <header className="z-20 flex h-12 items-center bg-moon-50 px-4 py-2 shadow-md dark:bg-moon-800 dark:shadow-xl">
+    <header className="sticky top-0 z-20 flex h-12 items-center bg-moon-50 px-4 py-2 shadow-md dark:bg-moon-800 dark:shadow-xl">
       <div className="container-lg flex justify-between">
         <Link href="/">
           <a className="button-ghost px-2 py-1 text-lg font-medium tracking-wide">🚀 Snippets</a>

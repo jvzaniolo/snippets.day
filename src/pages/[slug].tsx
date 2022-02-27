@@ -5,7 +5,7 @@ import { getPost, type Post } from '~/lib/post'
 
 const Post: NextPage<{ post: Post }> = ({ post }) => {
   return (
-    <div className="h-full overflow-y-auto">
+    <div className="h-full">
       <Head>
         <title>{post.title}</title>
         <link rel="icon" href="/favicon.ico" />
@@ -32,15 +32,6 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
 
           <section className="post-content" dangerouslySetInnerHTML={{ __html: post.content }} />
         </main>
-        <nav className="sticky top-8 hidden h-min w-48 rounded border p-4 pl-9 dark:border-moon-600 lg:block">
-          <ol className="list-decimal">
-            {post.nav?.map(link => (
-              <li key={link.id} className="text-orange-300 underline-offset-1 hover:underline">
-                <a href={`#${link.id}`}>{link.content}</a>
-              </li>
-            ))}
-          </ol>
-        </nav>
       </div>
     </div>
   )
