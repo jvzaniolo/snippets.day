@@ -18,9 +18,11 @@ module.exports = {
           600: '#495057',
           700: '#343a40',
           800: '#212529',
-          900: '#171A1C',
+          900: '#121516',
         },
         primary: colors.orange,
+        'light-hover': 'rgba(0, 0, 0, 0.1)',
+        'dark-hover': 'rgba(255, 255, 255, 0.1)',
       },
     },
     fontFamily: {

@@ -7,16 +7,22 @@ import useThemeValue from '~/hooks/useThemeValue'
 import Avatar from './Avatar'
 import AvatarMenu from './AvatarMenu'
 
+type Profile = {
+  firstName: string
+  lastName: string
+}
+
 const Header = () => {
   const session = useSession()
   const { toggleTheme } = useTheme()
   const icon = useThemeValue(<FiMoon />, <FiSun />)
+  const [profile, setProfile] = React.useState<Profile | undefined>(undefined)
 
   return (
-    <header className="sticky top-0 z-20 flex h-12 items-center bg-moon-50 px-4 py-2 shadow-md dark:bg-moon-800 dark:shadow-xl">
-      <div className="container-lg flex justify-between">
+    <header className="bg-white shadow dark:bg-moon-800">
+      <div className="container-lg flex items-center justify-between py-3">
         <Link href="/">
-          <a className="button-ghost px-2 py-1 text-lg font-medium tracking-wide">🚀 Snippets</a>
+          <a className="button">🚀 Snippets</a>
         </Link>
 
         <div className="flex items-center">
@@ -24,23 +30,23 @@ const Header = () => {
             type="button"
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="button-ghost h-9 w-9"
+            className="button ghost icon"
           >
             {icon}
           </button>
 
           {session?.user ? (
-            <AvatarMenu className="ml-2 flex h-8 w-8">
-              <Avatar name="João Vitor" className="select-none" />
+            <AvatarMenu className="h-8 w-8">
+              <Avatar firstName={profile?.firstName} lastName={profile?.lastName} />
             </AvatarMenu>
           ) : (
             <>
               <Link href="/login" passHref>
-                <a className="button-ghost h-9 px-3">Login</a>
+                <a className="button ghost">Login</a>
               </Link>
 
               <Link href="/sign-up" passHref>
-                <button className="button-primary ml-2 h-8 px-2">Create Account</button>
+                <a className="button primary ml-2">Create Account</a>
               </Link>
             </>
           )}
