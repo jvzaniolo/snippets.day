@@ -39,11 +39,11 @@
   }
 
   .post-content pre {
-    @apply overflow-x-auto rounded-lg bg-moon-50 p-2 dark:bg-moon-800 md:p-3 lg:p-4;
+    @apply overflow-x-auto rounded-lg;
   }
 
   .post-content :not(pre) code {
-    @apply mx-1 rounded bg-moon-50 py-0.5 px-2 dark:bg-moon-800;
+    @apply mx-1 rounded bg-moon-50 py-0.5 px-2 dark:bg-moon-700;
   }
 
   .post-content p {

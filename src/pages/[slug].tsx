@@ -1,8 +1,10 @@
+import * as React from 'react'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { marked } from 'marked'
+import Markdown from 'marked-react'
 import supabase from '~/services/supabase'
+import SyntaxHighlighter from '~/components/SyntaxHighlighter'
 
 type Post = {
   slug: string
@@ -11,7 +13,6 @@ type Post = {
     src: string
     blurData: string
   }
-  html: string
   content: string
 }
 
@@ -42,7 +43,14 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
             {post.title}
           </h1>
 
-          <section className="post-content" dangerouslySetInnerHTML={{ __html: post.html }} />
+          <section className="post-content">
+            <Markdown
+              value={post.content}
+              renderer={{
+                code: (snippet, lang) => <SyntaxHighlighter snippet={snippet} lang={lang} />,
+              }}
+            />
+          </section>
         </main>
       </div>
     </div>
@@ -54,11 +62,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   const { data: post } = await supabase.from('post').select('*').eq('slug', slug).single()
 
-  const html = marked(post?.content)
-
   return {
     props: {
-      post: { ...post, html },
+      post,
     },
   }
 }
