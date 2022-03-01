@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-type Theme = 'light' | 'dark' | undefined
+type Theme = 'light' | 'dark'
 
 type ThemeContextValue = {
   theme: Theme
@@ -13,7 +13,7 @@ const useIsomorphicLayoutEffect =
 const ThemeContext = React.createContext<ThemeContextValue | null>(null)
 
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = React.useState<Theme>(undefined)
+  const [theme, setTheme] = React.useState<Theme>('light')
 
   useIsomorphicLayoutEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)')

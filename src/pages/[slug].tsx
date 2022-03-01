@@ -1,7 +1,19 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { getPost, type Post } from '~/lib/post'
+import { marked } from 'marked'
+import supabase from '~/services/supabase'
+
+type Post = {
+  slug: string
+  title: string
+  cover: {
+    src: string
+    blurData: string
+  }
+  html: string
+  content: string
+}
 
 const Post: NextPage<{ post: Post }> = ({ post }) => {
   return (
@@ -30,7 +42,7 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
             {post.title}
           </h1>
 
-          <section className="post-content" dangerouslySetInnerHTML={{ __html: post.content }} />
+          <section className="post-content" dangerouslySetInnerHTML={{ __html: post.html }} />
         </main>
       </div>
     </div>
@@ -38,11 +50,15 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const slug = params?.slug as string
+  const slug = params?.slug
+
+  const { data: post } = await supabase.from('post').select('*').eq('slug', slug).single()
+
+  const html = marked(post?.content)
 
   return {
     props: {
-      post: await getPost(slug),
+      post: { ...post, html },
     },
   }
 }

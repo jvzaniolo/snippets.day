@@ -36,7 +36,7 @@ const Header = () => {
           </button>
 
           {session?.user ? (
-            <AvatarMenu className="h-8 w-8">
+            <AvatarMenu className="ml-2 h-8 w-8">
               <Avatar firstName={profile?.firstName} lastName={profile?.lastName} />
             </AvatarMenu>
           ) : (

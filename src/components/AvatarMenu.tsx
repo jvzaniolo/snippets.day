@@ -1,6 +1,6 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import Link from 'next/link'
-import supabase from '~/lib/supabase'
+import supabase from '~/services/supabase'
 
 const DropdownItem = ({ children }: { children: React.ReactNode }) => (
   <DropdownMenu.Item className="flex rounded px-2 py-1 outline-none hover:bg-moon-100 dark:text-moon-200 dark:hover:bg-moon-600">

@@ -2,10 +2,21 @@ import * as React from 'react'
 import type { GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
-import { getPostsWithProfile, type PostWithProfile } from '~/lib/post'
 import Avatar from '~/components/Avatar'
+import supabase from '~/services/supabase'
 
-const Home: NextPage<{ posts: Array<PostWithProfile> }> = ({ posts }) => {
+type Post = {
+  id: string
+  slug: string
+  title: string
+  created_at: string
+  profile: {
+    first_name: string
+    last_name: string
+  }
+}
+
+const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
   return (
     <div>
       <Head>
@@ -19,11 +30,11 @@ const Home: NextPage<{ posts: Array<PostWithProfile> }> = ({ posts }) => {
             <li key={post.id} className="flex flex-col">
               <div className="flex items-center">
                 <Avatar
-                  firstName={post.profiles.first_name}
-                  lastName={post.profiles.last_name}
+                  firstName={post.profile.first_name}
+                  lastName={post.profile.last_name}
                   className="mr-2 h-8 w-8"
                 />
-                <span className="mr-2 text-sm">{post.profiles.first_name}</span>
+                <span className="mr-2 text-sm">{post.profile.first_name}</span>
                 <span className="text-sm text-moon-500 dark:text-moon-400">
                   {new Intl.DateTimeFormat('en-US', {
                     dateStyle: 'medium',
@@ -58,9 +69,11 @@ const Home: NextPage<{ posts: Array<PostWithProfile> }> = ({ posts }) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
+  let { data: posts } = await supabase.from('post').select('*,profile(*)')
+
   return {
     props: {
-      posts: await getPostsWithProfile(),
+      posts,
     },
   }
 }
