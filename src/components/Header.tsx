@@ -19,7 +19,7 @@ const Header = () => {
   const [profile, setProfile] = React.useState<Profile | undefined>(undefined)
 
   return (
-    <header className="bg-white shadow dark:bg-moon-800">
+    <header className="border border-b bg-white dark:bg-moon-800">
       <div className="container-lg flex items-center justify-between py-3">
         <Link href="/">
           <a className="button">🚀 Snippets</a>

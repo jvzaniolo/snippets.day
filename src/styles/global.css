@@ -16,11 +16,11 @@
   }
 
   body {
-    @apply bg-moon-50 text-moon-900 dark:bg-moon-900 dark:text-white;
+    @apply bg-white text-moon-900 dark:bg-moon-900 dark:text-white;
   }
 
   .post-content {
-    @apply flex flex-1 flex-col space-y-6 font-serif text-sm leading-6 tracking-wide md:space-y-4 md:text-base md:leading-7 md:tracking-normal;
+    @apply flex flex-1 flex-col space-y-6 font-serif text-sm leading-6 tracking-wide md:space-y-8 md:text-base md:leading-7 md:tracking-normal;
   }
 
   .post-content a {
@@ -31,7 +31,7 @@
   }
 
   .post-content h1 {
-    @apply !mt-10 text-xl md:text-2xl;
+    @apply text-xl md:text-2xl;
   }
 
   .post-content h2 {
@@ -39,11 +39,11 @@
   }
 
   .post-content pre {
-    @apply overflow-x-auto rounded-lg;
+    @apply overflow-x-auto rounded-lg !p-4;
   }
 
   .post-content :not(pre) code {
-    @apply mx-1 rounded bg-moon-50 py-0.5 px-2 dark:bg-moon-700;
+    @apply rounded bg-neutral-200 py-0.5 px-2 dark:bg-[#2B2B2B] dark:text-[#F8F8F2];
   }
 
   .post-content p {

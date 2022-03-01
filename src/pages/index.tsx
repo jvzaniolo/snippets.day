@@ -24,7 +24,7 @@ const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container-lg space-y-10">
+      <main className="container-lg mt-10 space-y-10">
         <ul>
           {posts.map(post => (
             <li key={post.id} className="flex flex-col">
@@ -41,6 +41,7 @@ const Home: NextPage<{ posts: Array<Post> }> = ({ posts }) => {
                   }).format(new Date(post.created_at))}
                 </span>
               </div>
+
               <Link href={post.slug}>
                 <a className="flex flex-col">
                   <h2 className="mt-2 text-2xl font-medium">{post.title}</h2>

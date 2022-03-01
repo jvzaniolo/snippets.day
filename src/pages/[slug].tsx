@@ -24,7 +24,7 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="container-lg p-4 !pt-0 !pb-10 md:p-6 lg:flex lg:gap-8">
+      <div className="container-lg mt-10 px-4 lg:flex">
         <main className="flex-1">
           {post.cover && (
             <div className="relative w-full object-cover lg:h-96">
@@ -39,18 +39,16 @@ const Post: NextPage<{ post: Post }> = ({ post }) => {
             </div>
           )}
 
-          <h1 className="my-8 font-serif text-3xl md:my-10 md:text-4xl lg:text-5xl">
-            {post.title}
-          </h1>
+          <h1 className="mb-10 font-serif text-3xl md:text-4xl lg:text-5xl">{post.title}</h1>
 
-          <section className="post-content">
+          <article className="post-content">
             <Markdown
               value={post.content}
               renderer={{
                 code: (snippet, lang) => <SyntaxHighlighter snippet={snippet} lang={lang} />,
               }}
             />
-          </section>
+          </article>
         </main>
       </div>
     </div>
