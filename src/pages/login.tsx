@@ -1,6 +1,6 @@
-import * as React from 'react'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import { FiGithub } from 'react-icons/fi'
 import supabase from '~/services/supabase'

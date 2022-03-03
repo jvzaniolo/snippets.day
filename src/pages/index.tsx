@@ -1,7 +1,7 @@
-import * as React from 'react'
 import type { GetStaticProps, NextPage } from 'next'
-import Link from 'next/link'
 import Head from 'next/head'
+import Link from 'next/link'
+import * as React from 'react'
 import Avatar from '~/components/Avatar'
 import supabase from '~/services/supabase'
 

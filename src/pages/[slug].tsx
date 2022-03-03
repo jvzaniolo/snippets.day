@@ -1,10 +1,10 @@
-import * as React from 'react'
+import Markdown from 'marked-react'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import Markdown from 'marked-react'
-import supabase from '~/services/supabase'
+import * as React from 'react'
 import SyntaxHighlighter from '~/components/SyntaxHighlighter'
+import supabase from '~/services/supabase'
 
 type Post = {
   slug: string

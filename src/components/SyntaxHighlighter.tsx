@@ -1,7 +1,6 @@
 import ReactSyntaxHighlighter from 'react-syntax-highlighter'
+import { a11yDark, foundation } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import useThemeValue from '~/hooks/useThemeValue'
-
-import { foundation, a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 
 interface SyntaxHighlighterProps {
   snippet: string
