@@ -1,5 +1,10 @@
 import { type LoaderFunction, useLoaderData } from 'remix';
 import { getPost, type Post } from '~/utils/post';
+import a11yLight from 'highlight.js/styles/a11y-light.css';
+
+export const links = () => {
+  return [{ rel: 'stylesheet', href: a11yLight }];
+};
 
 export const loader: LoaderFunction = ({ params }) => {
   return getPost(params.slug);
@@ -16,6 +21,8 @@ export default function PostDetails() {
 
           <article className="post-content" dangerouslySetInnerHTML={{ __html: post.html }} />
         </main>
+
+        <footer>{/* author biography */}</footer>
       </div>
     </div>
   );

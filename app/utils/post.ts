@@ -8,8 +8,7 @@ export type Post = {
   created_at: string;
   html: string;
   profile: {
-    first_name: string;
-    last_name: string;
+    name: string;
   };
   content: string;
 };
@@ -23,7 +22,10 @@ export async function getPosts(query = '*') {
 export async function getPost(slug: string | undefined) {
   const { data: post } = await supabase.from('post').select('*').eq('slug', slug).single();
 
-  const html = marked.parse(post.content);
+  const html = marked(post.content, {
+    langPrefix: 'hljs lang-',
+    highlight: (code, lang) => require('highlight.js').highlight(code, { language: lang }).value,
+  });
 
   return {
     ...post,

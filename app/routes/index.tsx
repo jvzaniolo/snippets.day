@@ -1,9 +1,9 @@
 import { Link, useLoaderData } from 'remix';
 import { getPosts, type Post } from '~/utils/post';
 
-export function loader() {
+export const loader = () => {
   return getPosts('*, profile(*)');
-}
+};
 
 export default function Index() {
   const posts: Post[] = useLoaderData();
@@ -15,12 +15,7 @@ export default function Index() {
           {posts.map(post => (
             <li key={post.id} className="flex flex-col">
               <div className="flex items-center">
-                {/* <Avatar
-                  firstName={post.profile.first_name}
-                  lastName={post.profile.last_name}
-                  className="mr-2 h-8 w-8"
-                /> */}
-                <span className="mr-2 text-sm">{post.profile.first_name}</span>
+                <span className="mr-2 text-sm">{post.profile.name}</span>
                 <span className="text-sm text-moon-500 dark:text-moon-400">
                   {new Intl.DateTimeFormat('en-US', {
                     dateStyle: 'medium',

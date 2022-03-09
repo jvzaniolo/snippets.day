@@ -2,14 +2,13 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from 'rem
 import type { MetaFunction, LinksFunction } from 'remix';
 import styles from '~/styles/output.css';
 import Header from '~/components/Header';
-import ThemeProvider from '~/contexts/theme';
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }];
 };
 
 export const meta: MetaFunction = () => {
-  return { title: 'New Remix App' };
+  return { title: 'Snippets' };
 };
 
 export default function App() {
@@ -22,10 +21,8 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-white text-moon-900 dark:bg-moon-900 dark:text-white">
-        <ThemeProvider>
-          <Header />
-          <Outlet />
-        </ThemeProvider>
+        <Header />
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
