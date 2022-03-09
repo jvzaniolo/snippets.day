@@ -1,22 +1,13 @@
 import { Link } from 'remix';
 import { FiMoon, FiSun } from 'react-icons/fi';
 import { useTheme, useThemeValue } from '~/contexts/theme';
-// import Avatar from './Avatar';
-// import AvatarMenu from './AvatarMenu';
-
-// type Profile = {
-//   firstName: string;
-//   lastName: string;
-// };
 
 const Header = () => {
-  // const session = useSession();
   const { toggleTheme } = useTheme();
   const icon = useThemeValue(<FiMoon />, <FiSun />);
-  // const [profile, setProfile] = React.useState<Profile | undefined>(undefined);
 
   return (
-    <header className="border border-b bg-white dark:bg-moon-800">
+    <header className="border-b bg-white dark:border-0 dark:bg-moon-800">
       <div className="container-lg flex items-center justify-between py-3">
         <Link to="/" className="button">
           🚀 Snippets

@@ -1,47 +1,36 @@
-import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import * as React from 'react'
-import { useForm } from 'react-hook-form'
-import { FiGithub } from 'react-icons/fi'
-import supabase from '~/services/supabase'
+import { FiGithub } from 'react-icons/fi';
+import { type ActionFunction, useActionData, redirect, json } from 'remix';
+import supabase from '~/services/supabase';
 
-type FormData = {
-  email: string
-  password: string
-  confirmPassword: string
-}
+// export const action: ActionFunction = async ({ request }) => {
+//   const formData = await request.formData();
 
-const Login: NextPage = () => {
-  const router = useRouter()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FormData>()
+//   const { error } = await supabase.auth.signIn({
+//     email: formData.get('email') as string,
+//     password: formData.get('password') as string,
+//   });
 
-  const onSubmit = handleSubmit(async data => {
-    const { email, password } = data
+//   if (error) {
+//     return json({ error });
+//   }
 
-    const { user, error } = await supabase.auth.signUp({ email, password })
+//   return redirect('/');
+// };
 
-    if (user) {
-      router.push('/')
-    }
-
-    if (error) {
-      alert(error)
-    } else {
-      reset()
-    }
-  })
+export default function Login() {
+  // const actionData = useActionData();
 
   return (
     <div className="mx-auto flex flex-col space-y-8 ">
       <h1 className="mt-8 text-center font-serif text-5xl">Welcome back</h1>
 
+      {/* {actionData?.error && (
+        <div className="text-red-600 text-center">{actionData.error.message}</div>
+      )} */}
+
       <form
-        onSubmit={onSubmit}
+        action="/login"
+        method="post"
         className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg bg-white p-6 shadow-2xl dark:bg-moon-900 dark:shadow-black"
       >
         <div className="flex flex-col space-y-2">
@@ -51,13 +40,11 @@ const Login: NextPage = () => {
           <input
             id="email"
             type="email"
-            {...register('email', { required: true })}
-            placeholder="email@example.com"
+            name="email"
+            placeholder="example@email.com"
             className="w-full rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-800 dark:text-moon-100 dark:placeholder:text-moon-500"
           />
-          {errors.email && (
-            <span className="text-sm text-red-400 dark:text-red-300">Email is required.</span>
-          )}
+          <span className="text-sm text-red-400 dark:text-red-300">Email is required.</span>
         </div>
 
         <div className="flex flex-col space-y-2">
@@ -67,15 +54,13 @@ const Login: NextPage = () => {
           <input
             id="password"
             type="password"
-            {...register('password', { required: true })}
+            name="password"
             className="w-full rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-800 dark:text-moon-100 dark:placeholder:text-moon-500"
           />
-          {errors.password && (
-            <span className="text-sm text-red-400 dark:text-red-300">Password is required.</span>
-          )}
+          <span className="text-sm text-red-400 dark:text-red-300">Password is required.</span>
         </div>
 
-        <button type="submit" className="button-primary !mt-10 py-2 text-lg">
+        <button type="submit" className="button primary !mt-10 py-2 text-lg">
           Login
         </button>
 
@@ -95,7 +80,5 @@ const Login: NextPage = () => {
         </button>
       </form>
     </div>
-  )
+  );
 }
-
-export default Login

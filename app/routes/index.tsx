@@ -1,4 +1,4 @@
-import { useLoaderData } from 'remix';
+import { Link, useLoaderData } from 'remix';
 import { getPosts, type Post } from '~/utils/post';
 
 export function loader() {
@@ -28,7 +28,7 @@ export default function Index() {
                 </span>
               </div>
 
-              <a className="flex flex-col" href={post.slug}>
+              <Link className="flex flex-col" to={post.slug}>
                 <h2 className="mt-2 text-2xl font-medium">{post.title}</h2>
 
                 <span className="mt-2 font-serif text-moon-600 dark:text-moon-300">
@@ -36,7 +36,7 @@ export default function Index() {
                   program all by himself. He is a loving boyfriend and a cool brother. He loves
                   eating and playing video-games.
                 </span>
-              </a>
+              </Link>
 
               <div className="mt-8 flex items-center gap-3">
                 <span className="rounded-full bg-moon-200 px-3 py-1 text-xs font-semibold dark:bg-moon-700 dark:text-white">
