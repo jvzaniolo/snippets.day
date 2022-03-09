@@ -1,5 +1,5 @@
 import { useLoaderData } from 'remix';
-import { getPosts, type Post } from '~/post';
+import { getPosts, type Post } from '~/utils/post';
 
 export function loader() {
   return getPosts('*, profile(*)');

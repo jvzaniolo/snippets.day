@@ -6,9 +6,9 @@
   "sideEffects": false,
   "scripts": {
     "build": "cross-env NODE_ENV=production npm run build:css && remix build",
-    "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
+    "build:css": "tailwindcss -m -i app/styles/app.css -o app/styles/output.css",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run dev:css\" \"remix dev\"",
-    "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
+    "dev:css": "tailwindcss -w -i app/styles/app.css -o app/styles/output.css",
     "postinstall": "remix setup node"
   },
   "dependencies": {
@@ -17,6 +17,8 @@
     "@supabase/supabase-js": "^1.31.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-syntax-highlighter": "^15.4.5",
     "remix": "^1.2.3"
   },
   "devDependencies": {
@@ -25,6 +27,7 @@
     "@remix-run/serve": "^1.2.3",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
+    "@types/react-syntax-highlighter": "^13.5.2",
     "autoprefixer": "^10.4.2",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
