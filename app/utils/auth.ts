@@ -22,9 +22,6 @@ export async function signIn(data: FormData) {
       password: values.password,
     });
 
-    console.log({ user });
-    console.log({ session });
-
     if (error) return new Response(error?.message, { status: error?.status || 500 });
 
     return redirect('/');

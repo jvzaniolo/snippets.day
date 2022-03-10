@@ -20,8 +20,8 @@ module.exports = {
           900: '#121516',
         },
         primary: colors.orange,
-        'light-hover': 'rgba(0, 0, 0, 0.1)',
-        'dark-hover': 'rgba(255, 255, 255, 0.1)',
+        'light-hover': 'rgba(18, 21, 22, 0.075)',
+        'dark-hover': 'rgba(248, 249, 250, 0.1)',
       },
     },
     fontFamily: {

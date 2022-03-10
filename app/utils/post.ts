@@ -11,12 +11,18 @@ export type Post = {
     name: string;
   };
   content: string;
+  preview: string | undefined;
 };
 
 export async function getPosts(query = '*') {
   const { data: posts } = await supabase.from('post').select(query);
 
-  return posts;
+  return posts?.map(post => {
+    const html = marked(post.content);
+    const result = new RegExp(/<(?:p|span)>(.*)<\/(?:p|span)>/g).exec(html);
+
+    return { ...post, html, preview: result?.[1] };
+  });
 }
 
 export async function getPost(slug: string | undefined) {

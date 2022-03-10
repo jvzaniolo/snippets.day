@@ -9,14 +9,18 @@ export default function Index() {
   const posts: Post[] = useLoaderData();
 
   return (
-    <div>
-      <main className="container-lg mt-10 space-y-10">
-        <ul>
-          {posts.map(post => (
-            <li key={post.id} className="flex flex-col">
-              <div className="flex items-center">
-                <span className="mr-2 text-sm">{post.profile.name}</span>
-                <span className="text-sm text-moon-500">
+    <main className="container-lg mt-10 space-y-10">
+      <ul>
+        {posts.map(post => (
+          <>
+            <li
+              key={post.id}
+              className="flex flex-col rounded-lg border border-transparent p-4 transition-shadow hover:shadow-lg"
+            >
+              <div className="flex items-center space-x-2">
+                <span className="text-xs md:text-sm">{post.profile.name}</span>
+                <span className="text-moon-500">&bull;</span>
+                <span className="text-xs text-moon-500 md:text-sm">
                   {new Intl.DateTimeFormat('en-US', {
                     dateStyle: 'medium',
                   }).format(new Date(post.created_at))}
@@ -24,26 +28,21 @@ export default function Index() {
               </div>
 
               <Link className="flex flex-col" to={post.slug}>
-                <h2 className="mt-2 text-2xl font-medium">{post.title}</h2>
+                <h2 className="mt-2 text-xl font-medium md:text-2xl">{post.title}</h2>
 
-                <span className="mt-2 font-serif text-moon-600">
-                  John is an awesome co-worker and a software engineer. He built the Snippets
-                  program all by himself. He is a loving boyfriend and a cool brother. He loves
-                  eating and playing video-games.
+                <span className="mt-2 font-serif text-sm text-moon-600 md:text-base">
+                  {post.preview}
                 </span>
               </Link>
 
               <div className="mt-8 flex items-center gap-3">
-                <span className="rounded-full bg-moon-200 px-3 py-1 text-xs font-semibold">
-                  JavaScript
-                </span>
                 <span className="text-xs text-moon-500">8 min read</span>
               </div>
-              {/* Separator <hr className="my-10 border-moon-700 bg-moon-700 fill-moon-700 text-moon-700" /> */}
             </li>
-          ))}
-        </ul>
-      </main>
-    </div>
+            {/* <hr className="my-4 border-moon-200 bg-moon-200 fill-moon-200 text-moon-200" /> */}
+          </>
+        ))}
+      </ul>
+    </main>
   );
 }
