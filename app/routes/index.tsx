@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from 'remix';
 import { getPosts, type Post } from '~/utils/post';
+import { readingTime } from '~/utils/read-time';
 
 export const loader = () => {
   return getPosts('*, profile(*)');
@@ -36,7 +37,7 @@ export default function Index() {
               </Link>
 
               <div className="mt-8 flex items-center gap-3">
-                <span className="text-xs text-moon-500">8 min read</span>
+                <span className="text-xs text-moon-500">{readingTime(post.content)}</span>
               </div>
             </li>
             {/* <hr className="my-4 border-moon-200 bg-moon-200 fill-moon-200 text-moon-200" /> */}
