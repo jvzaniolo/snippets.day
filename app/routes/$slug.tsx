@@ -1,4 +1,5 @@
 import { type LoaderFunction, useLoaderData } from 'remix';
+import { Interweave } from 'interweave';
 import { getPost, type Post } from '~/utils/post';
 import a11yLight from 'highlight.js/styles/a11y-light.css';
 
@@ -18,7 +19,7 @@ export default function PostDetails() {
       <main className="mb-20 flex-1">
         <h1 className="mb-10 font-serif text-3xl md:text-4xl lg:text-5xl">{post.title}</h1>
 
-        <article className="post-content" dangerouslySetInnerHTML={{ __html: post.html }} />
+        <Interweave tagName="article" className="post-content" content={post.html} />
       </main>
 
       <footer>{/* author biography */}</footer>
