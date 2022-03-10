@@ -2,7 +2,7 @@ import { Link } from 'remix';
 
 const Header = () => {
   return (
-    <header className="border-b bg-white dark:border-0 dark:bg-moon-800">
+    <header className="border-b bg-white">
       <div className="container-lg flex items-center justify-between py-3">
         <Link to="/" className="button">
           🚀 Snippets
