@@ -11,11 +11,7 @@ export async function signIn(data: FormData) {
   const { _action, ...values } = Object.fromEntries(data) as CustomFormData;
 
   if (_action === 'github') {
-    console.log('github');
     const { user, session, error } = await supabase.auth.signIn({ provider: 'github' });
-
-    console.log({ user });
-    console.log({ session });
 
     if (error) return new Response(error?.message, { status: error?.status || 500 });
 
