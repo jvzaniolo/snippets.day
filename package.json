@@ -16,13 +16,12 @@
     "@remix-run/vercel": "^1.2.3",
     "@supabase/supabase-js": "^1.31.1",
     "highlight.js": "^11.4.0",
-    "interweave": "^13.0.0",
-    "interweave-ssr": "^2.0.0",
     "marked": "^4.0.12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
-    "remix": "^1.2.3"
+    "remix": "^1.2.3",
+    "sanitize-html": "^2.7.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.2.3",
@@ -31,6 +30,7 @@
     "@types/marked": "^4.0.2",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
+    "@types/sanitize-html": "^2.6.2",
     "autoprefixer": "^10.4.2",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",

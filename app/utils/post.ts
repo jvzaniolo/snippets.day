@@ -1,5 +1,6 @@
-import supabase from '~/services/supabase';
 import { marked } from 'marked';
+import sanitizeHtml from 'sanitize-html';
+import supabase from '~/services/supabase';
 
 export type Post = {
   id: string;
@@ -18,10 +19,12 @@ export async function getPosts(query = '*') {
   const { data: posts } = await supabase.from('post').select(query);
 
   return posts?.map(post => {
-    const html = marked(post.content);
-    const result = new RegExp(/<(?:p|span)>(.*)<\/(?:p|span)>/g).exec(html);
+    const html = marked(post.content, {
+      sanitizer: unsafe => sanitizeHtml(unsafe),
+    });
+    const previewRegex = new RegExp(/<(?:p|span)>(.*)<\/(?:p|span)>/g).exec(html);
 
-    return { ...post, html, preview: result?.[1] };
+    return { ...post, html, preview: previewRegex?.[1] };
   });
 }
 
@@ -31,6 +34,7 @@ export async function getPost(slug: string | undefined) {
   const html = marked(post.content, {
     langPrefix: 'hljs lang-',
     highlight: (code, lang) => require('highlight.js').highlight(code, { language: lang }).value,
+    sanitizer: unsafe => sanitizeHtml(unsafe),
   });
 
   return {
