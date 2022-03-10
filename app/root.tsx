@@ -1,5 +1,6 @@
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from 'remix';
 import type { MetaFunction, LinksFunction } from 'remix';
+import { polyfill } from 'interweave-ssr';
 import styles from '~/styles/output.css';
 import Header from '~/components/Header';
 
@@ -12,6 +13,8 @@ export const meta: MetaFunction = () => {
 };
 
 export default function App() {
+  polyfill();
+
   return (
     <html lang="en">
       <head>
