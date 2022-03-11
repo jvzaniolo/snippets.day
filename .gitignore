@@ -9,6 +9,6 @@ node_modules
 /public/build
 /api/index.js
 
-/app/styles/output.css
+/app/tailwind.css
 
 .DS_Store
