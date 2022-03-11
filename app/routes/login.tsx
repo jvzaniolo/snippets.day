@@ -2,8 +2,10 @@ import { FiGithub } from 'react-icons/fi';
 import { ActionFunction, useActionData } from 'remix';
 import { signIn } from '~/utils/auth';
 
-export const action: ActionFunction = async ({ request }) => {
-  return await signIn(await request.formData());
+export const action: ActionFunction = async context => {
+  console.log(context);
+
+  return {};
 };
 
 export default function Login() {
@@ -18,7 +20,7 @@ export default function Login() {
       )}
 
       <div className="mx-auto flex w-full max-w-sm flex-col rounded-lg bg-white p-6 shadow-2xl">
-        <form action="/login" method="post" className="space-y-4">
+        <form action="/login" method="post" className="space-y-4" id="sign-in-form">
           <div className="flex flex-col space-y-2">
             <label htmlFor="email">Email address</label>
             <input
@@ -41,9 +43,9 @@ export default function Login() {
           </div>
 
           <button
-            name="_action"
             value="email"
             type="submit"
+            formAction="/login?type=email"
             className="button primary !mt-10 w-full py-2 text-lg"
           >
             Login
@@ -56,17 +58,14 @@ export default function Login() {
           <hr className="w-full" />
         </div>
 
-        <form method="post">
-          <button
-            name="_action"
-            value="github"
-            type="submit"
-            className="flex w-full items-center justify-center gap-4 rounded bg-black py-2 text-lg text-white"
-          >
-            <FiGithub />
-            Github
-          </button>
-        </form>
+        <button
+          form="sign-in-form"
+          formAction="/login?type=github"
+          className="flex w-full items-center justify-center gap-4 rounded bg-black py-2 text-lg text-white"
+        >
+          <FiGithub />
+          Github
+        </button>
       </div>
     </div>
   );
