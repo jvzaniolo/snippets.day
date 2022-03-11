@@ -1,7 +1,8 @@
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from 'remix';
 import type { MetaFunction, LinksFunction } from 'remix';
-import styles from '~/styles/output.css';
 import Header from '~/components/Header';
+import styles from '~/tailwind.css';
+import ThemeProvider from './contexts/Theme';
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }];
@@ -20,9 +21,11 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-white text-moon-900">
-        <Header />
-        <Outlet />
+      <body className="bg-white text-moon-900 dark:bg-moon-900 dark:text-white">
+        <ThemeProvider>
+          <Header />
+          <Outlet />
+        </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

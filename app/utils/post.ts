@@ -15,30 +15,47 @@ export type Post = {
   preview: string | undefined;
 };
 
-export async function getPosts(query = '*') {
-  const { data: posts } = await supabase.from('post').select(query);
+export async function getPosts(query = '*'): Promise<Post[] | null> {
+  let { data: posts, error } = await supabase.from<Post>('post').select(query);
 
-  return posts?.map(post => {
-    const html = marked(post.content, {
-      sanitizer: unsafe => sanitizeHtml(unsafe),
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (posts) {
+    return posts.map(post => {
+      let html = marked(post.content, {
+        sanitizer: unsafe => sanitizeHtml(unsafe),
+      });
+      let previewRegex = new RegExp(/<(?:p|span)>(.*)<\/(?:p|span)>/g).exec(html);
+
+      return { ...post, html, preview: previewRegex?.[1] };
     });
-    const previewRegex = new RegExp(/<(?:p|span)>(.*)<\/(?:p|span)>/g).exec(html);
+  }
 
-    return { ...post, html, preview: previewRegex?.[1] };
-  });
+  return null;
 }
 
-export async function getPost(slug: string | undefined) {
-  const { data: post } = await supabase.from('post').select('*').eq('slug', slug).single();
+export async function getPost(slug: string | undefined): Promise<Post | null> {
+  let { data: post, error } = await supabase
+    .from<Post>('post')
+    .select('*')
+    .eq('slug', slug)
+    .single();
 
-  const html = marked(post.content, {
-    langPrefix: 'hljs lang-',
-    highlight: (code, lang) => require('highlight.js').highlight(code, { language: lang }).value,
-    sanitizer: unsafe => sanitizeHtml(unsafe),
-  });
+  if (error) {
+    throw new Error(error.message);
+  }
 
-  return {
-    ...post,
-    html,
-  };
+  if (post) {
+    let html = marked(post.content, {
+      langPrefix: 'hljs lang-',
+      highlight: (code, lang) => require('highlight.js').highlight(code, { language: lang }).value,
+      sanitizer: unsafe => sanitizeHtml(unsafe),
+    });
+
+    return { ...post, html };
+  }
+
+  return null;
 }

@@ -1,6 +1,6 @@
 import { FiGithub } from 'react-icons/fi';
 import { ActionFunction, useActionData } from 'remix';
-import { signIn } from '~/utils/auth';
+// import { signIn } from '~/utils/auth';
 
 export const action: ActionFunction = async context => {
   console.log(context);
@@ -9,7 +9,7 @@ export const action: ActionFunction = async context => {
 };
 
 export default function Login() {
-  const actionData = useActionData();
+  let actionData = useActionData();
 
   return (
     <div className="mx-auto flex flex-col space-y-8 ">
