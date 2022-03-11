@@ -1,7 +1,7 @@
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from 'remix';
 import type { MetaFunction, LinksFunction } from 'remix';
-import styles from '~/styles/output.css';
 import Header from '~/components/Header';
+import styles from '~/tailwind.css';
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }];

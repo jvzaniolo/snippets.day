@@ -5,11 +5,6 @@
 @tailwind utilities;
 
 @layer base {
-  html,
-  body {
-    @apply h-full;
-  }
-
   .post-content {
     @apply flex flex-1 flex-col space-y-6 font-serif text-sm leading-6 tracking-wide md:space-y-8 md:text-base md:leading-7 md:tracking-normal;
   }
@@ -33,12 +28,16 @@
     @apply overflow-x-auto rounded-lg;
   }
 
+  .post-content pre code {
+    @apply !bg-neutral-100 !text-neutral-900 dark:!bg-moon-800 dark:!text-moon-200;
+  }
+
   .post-content :not(pre) code {
-    @apply rounded bg-moon-100 py-0.5 px-2 dark:bg-moon-700 dark:text-white;
+    @apply rounded bg-neutral-100 py-0.5 px-2 text-neutral-900 dark:!bg-moon-800 dark:!text-moon-200;
   }
 
   .post-content p {
-    @apply text-moon-700 dark:text-moon-200;
+    @apply text-moon-700 dark:text-moon-300;
   }
 }
 
@@ -48,7 +47,7 @@
   }
 
   .button:not(.sm, .icon) {
-    @apply px-4 py-2 text-base font-medium;
+    @apply px-4 py-2 font-medium;
   }
 
   .button.sm {
@@ -64,7 +63,7 @@
   }
 
   .button.primary {
-    @apply gradient-primary text-white transition-shadow hover:shadow-lg dark:shadow-black;
+    @apply gradient-primary text-white transition-shadow hover:shadow-md;
   }
 }
 

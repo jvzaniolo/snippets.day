@@ -1,7 +1,7 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
-const colors = require('tailwindcss/colors');
+let defaultTheme = require('tailwindcss/defaultTheme');
+let colors = require('tailwindcss/colors');
 
-/** {import('tailwindcss').ThemeConfig} */
+/** @type {import('tailwindcss/tailwind-config').TailwindConfig} */
 module.exports = {
   darkMode: 'class',
   content: ['./app/**/*.{js,ts,jsx,tsx}'],
@@ -21,8 +21,8 @@ module.exports = {
           900: '#121516',
         },
         primary: colors.orange,
-        'light-hover': 'rgba(0, 0, 0, 0.1)',
-        'dark-hover': 'rgba(255, 255, 255, 0.1)',
+        'light-hover': 'rgba(18, 21, 22, 0.075)',
+        'dark-hover': 'rgba(248, 249, 250, 0.1)',
       },
     },
     fontFamily: {

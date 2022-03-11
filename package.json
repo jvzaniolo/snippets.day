@@ -5,11 +5,15 @@
   "license": "",
   "sideEffects": false,
   "scripts": {
-    "build": "cross-env NODE_ENV=production npm run build:css && remix build",
-    "build:css": "tailwindcss -m -i app/styles/app.css -o app/styles/output.css",
-    "dev": "cross-env NODE_ENV=development concurrently \"npm run dev:css\" \"remix dev\"",
-    "dev:css": "tailwindcss -w -i app/styles/app.css -o app/styles/output.css",
-    "postinstall": "remix setup node"
+    "build": "run-p build:*",
+    "build:css": "npm run generate:css -- --minify",
+    "build:remix": "cross-env NODE_ENV=production remix build",
+    "dev": "run-p dev:*",
+    "dev:css": "npm run generate:css -- --watch",
+    "dev:remix": "cross-env NODE_ENV=development remix dev",
+    "generate:css": "npx tailwindcss -i ./styles/tailwind.css -o ./app/tailwind.css",
+    "postinstall": "remix setup node",
+    "start": "cross-env NODE_ENV=production remix-serve build"
   },
   "dependencies": {
     "@remix-run/react": "^1.2.3",
@@ -20,7 +24,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
-    "remix": "^1.2.3"
+    "remix": "^1.2.3",
+    "sanitize-html": "^2.7.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.2.3",
@@ -29,12 +34,11 @@
     "@types/marked": "^4.0.2",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
-    "autoprefixer": "^10.4.2",
-    "concurrently": "^7.0.0",
+    "@types/sanitize-html": "^2.6.2",
     "cross-env": "^7.0.3",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.5.0",
-    "postcss": "^8.4.8",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.8",
     "tailwindcss": "^3.0.23",
