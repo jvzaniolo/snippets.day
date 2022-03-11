@@ -1,46 +1,29 @@
-import {
-  createContext,
-  type ReactNode,
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useContext,
-} from 'react';
+import { createContext, useEffect, useState, useContext } from 'react';
+import type { ReactNode } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'light' | 'dark' | null;
 
 type ThemeContextValue = {
   theme: Theme;
   toggleTheme: () => void;
 };
 
-const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
-
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
+/**
+ * @description Known issue: When in dark mode, the page blinks in the first render because the 'light' styles are the Tailwind's default
+ */
 function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
-
-  useIsomorphicLayoutEffect(() => {
-    const media = window.matchMedia('(prefers-color-scheme: dark)');
-
-    const handleSetColorMode = () => {
-      setTheme(media.matches ? 'dark' : 'light');
-    };
-
-    media.addEventListener('change', handleSetColorMode);
-
-    handleSetColorMode();
-
-    return () => {
-      media.removeEventListener('change', handleSetColorMode);
-    };
-  }, []);
+  let [theme, setTheme] = useState<Theme | null>(() =>
+    typeof window !== 'undefined' ? (window.localStorage.getItem('theme') as Theme) : null
+  );
 
   useEffect(() => {
     if (theme === 'dark') {
+      localStorage.setItem('theme', 'dark');
       document.documentElement.classList.add('dark');
     } else {
+      localStorage.setItem('theme', 'light');
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
@@ -53,7 +36,7 @@ function ThemeProvider({ children }: { children: ReactNode }) {
 }
 
 export function useTheme() {
-  const context = useContext(ThemeContext);
+  let context = useContext(ThemeContext);
 
   if (!context) {
     throw new Error('useTheme must be used within a ThemeProvider');
@@ -63,7 +46,7 @@ export function useTheme() {
 }
 
 export function useThemeValue(light: React.ReactNode, dark: React.ReactNode) {
-  const { theme } = useTheme();
+  let { theme } = useTheme();
 
   return theme === 'light' ? light : dark;
 }
