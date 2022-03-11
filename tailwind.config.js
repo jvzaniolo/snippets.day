@@ -1,8 +1,9 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
-const colors = require('tailwindcss/colors');
+let defaultTheme = require('tailwindcss/defaultTheme');
+let colors = require('tailwindcss/colors');
 
-/** {import('tailwindcss').ThemeConfig} */
+/** @type {import('tailwindcss/tailwind-config').TailwindConfig} */
 module.exports = {
+  darkMode: 'media',
   content: ['./app/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {

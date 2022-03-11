@@ -1,4 +1,4 @@
-import { type LoaderFunction, useLoaderData } from 'remix';
+import { type LoaderFunction, useLoaderData, redirect } from 'remix';
 import a11yLight from 'highlight.js/styles/a11y-light.css';
 import { getPost, type Post } from '~/utils/post';
 
@@ -11,7 +11,9 @@ export const loader: LoaderFunction = ({ params }) => {
 };
 
 export default function PostDetails() {
-  const post: Post = useLoaderData();
+  let post: Post | null = useLoaderData();
+
+  if (!post) return redirect('/');
 
   return (
     <div className="container-lg mt-10 px-4 lg:flex">
@@ -20,8 +22,6 @@ export default function PostDetails() {
 
         <article className="post-content" dangerouslySetInnerHTML={{ __html: post.html }} />
       </main>
-
-      <footer>{/* author biography */}</footer>
     </div>
   );
 }

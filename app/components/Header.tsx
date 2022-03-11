@@ -1,25 +1,13 @@
 import { Link } from 'remix';
 
-const Header = () => {
+export default function Header() {
   return (
-    <header className="bg-white shadow">
+    <header className="shadow dark:bg-moon-800">
       <div className="container-lg flex items-center justify-center py-3">
         <Link to="/" className="button text-lg" aria-label="Home page">
           🚀 Snippets
         </Link>
-
-        {/* <div className="flex items-center"> */}
-        {/* <Link to="/login" className="button ghost">
-            Login
-          </Link>
-
-          <Link to="/sign-up" className="button primary ml-2">
-            Create Account
-          </Link> */}
-        {/* </div> */}
       </div>
     </header>
   );
-};
-
-export default Header;
+}

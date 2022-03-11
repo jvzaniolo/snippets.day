@@ -20,7 +20,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-white text-moon-900">
+      <body className="bg-white text-moon-900 dark:bg-moon-900 dark:text-white">
         <Header />
         <Outlet />
         <ScrollRestoration />
