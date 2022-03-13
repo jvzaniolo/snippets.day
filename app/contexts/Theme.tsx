@@ -10,9 +10,6 @@ type ThemeContextValue = {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-/**
- * @description Known issue: When in dark mode, the page blinks in the first render because the 'light' styles are the Tailwind's default
- */
 function ThemeProvider({ children }: { children: ReactNode }) {
   let [theme, setTheme] = useState<Theme>(() =>
     typeof window !== 'undefined'
@@ -21,6 +18,18 @@ function ThemeProvider({ children }: { children: ReactNode }) {
         : 'light'
       : undefined
   );
+
+  useEffect(() => {
+    let media = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function onChange() {
+      setTheme(media.matches ? 'dark' : 'light');
+    }
+
+    media.addEventListener('change', onChange);
+
+    return () => media.removeEventListener('change', onChange);
+  }, []);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -51,6 +60,28 @@ export function useThemeValue<T>(light: T, dark: T) {
   let { theme } = useTheme();
 
   return theme === 'light' ? light : dark;
+}
+
+/**
+ * Fix flickering on dark mode when reloading the page, but introduces a hydration error:
+ * `Extra attributes from the server: class` at html
+ */
+export function ThemeScripts() {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `;(() => {
+          let media = window.matchMedia('(prefers-color-scheme: dark)')
+
+          if (media.matches) {
+            document.documentElement.classList.add('dark')
+          } else {
+            document.documentElement.classList.remove('dark')
+          }
+        })();`,
+      }}
+    />
+  );
 }
 
 export default ThemeProvider;
