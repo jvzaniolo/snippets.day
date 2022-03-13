@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, useContext } from 'react';
 import type { ReactNode } from 'react';
 
-type Theme = 'light' | 'dark' | null;
+type Theme = 'light' | 'dark' | undefined;
 
 type ThemeContextValue = {
   theme: Theme;
@@ -14,16 +14,18 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
  * @description Known issue: When in dark mode, the page blinks in the first render because the 'light' styles are the Tailwind's default
  */
 function ThemeProvider({ children }: { children: ReactNode }) {
-  let [theme, setTheme] = useState<Theme | null>(() =>
-    typeof window !== 'undefined' ? (window.localStorage.getItem('theme') as Theme) : null
+  let [theme, setTheme] = useState<Theme>(() =>
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'
+      : undefined
   );
 
   useEffect(() => {
     if (theme === 'dark') {
-      localStorage.setItem('theme', 'dark');
       document.documentElement.classList.add('dark');
     } else {
-      localStorage.setItem('theme', 'light');
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
@@ -45,7 +47,7 @@ export function useTheme() {
   return context;
 }
 
-export function useThemeValue(light: React.ReactNode, dark: React.ReactNode) {
+export function useThemeValue<T>(light: T, dark: T) {
   let { theme } = useTheme();
 
   return theme === 'light' ? light : dark;
