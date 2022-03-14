@@ -16,9 +16,14 @@ export default function PostDetails() {
   if (!post) return redirect('/');
 
   return (
-    <div className="container-lg mt-10 px-4 lg:flex">
-      <main className="mb-20 flex-1">
-        <h1 className="mb-10 font-serif text-3xl md:text-4xl lg:text-5xl">{post.title}</h1>
+    <div className="container-lg lg:flex">
+      <main className="mt-10 mb-20 flex-1">
+        <img
+          src={`https://ihmjgncpquwctrvdmwey.supabase.in/storage/v1/object/public/covers/${post.id}`}
+          alt={post.title}
+        />
+
+        <h1 className="my-10 font-serif text-3xl md:text-4xl lg:text-5xl">{post.title}</h1>
 
         <article className="post-content" dangerouslySetInnerHTML={{ __html: post.html }} />
       </main>
