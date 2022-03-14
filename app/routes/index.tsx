@@ -28,7 +28,7 @@ export default function Index() {
                 </span>
               </div>
 
-              <Link className="flex flex-col" to={post.slug}>
+              <Link className="flex flex-col" to={post.slug} prefetch="intent">
                 <h2 className="mt-2 text-xl font-medium dark:text-white md:text-2xl">
                   {post.title}
                 </h2>
