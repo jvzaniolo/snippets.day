@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, useContext } from 'react';
 import type { ReactNode } from 'react';
 
-type Theme = 'light' | 'dark' | undefined;
+export type Theme = 'light' | 'dark' | undefined;
 
 type ThemeContextValue = {
   theme: Theme;
@@ -11,13 +11,13 @@ type ThemeContextValue = {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 function ThemeProvider({ children }: { children: ReactNode }) {
-  let [theme, setTheme] = useState<Theme>(() =>
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light'
-      : undefined
-  );
+  let [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'object') {
+      return undefined;
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
 
   useEffect(() => {
     let media = window.matchMedia('(prefers-color-scheme: dark)');
@@ -31,16 +31,8 @@ function ThemeProvider({ children }: { children: ReactNode }) {
     return () => media.removeEventListener('change', onChange);
   }, []);
 
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [theme]);
-
   function toggleTheme() {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(theme === 'light' ? 'dark' : 'light');
   }
 
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
@@ -62,23 +54,21 @@ export function useThemeValue<T>(light: T, dark: T) {
   return theme === 'light' ? light : dark;
 }
 
-/**
- * Fix flickering on dark mode when reloading the page, but introduces a hydration error:
- * `Extra attributes from the server: class` at html
- */
+const clientThemeScript = `;(() => {
+  let media = window.matchMedia('(prefers-color-scheme: dark)')
+
+  if (media.matches) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+})();`;
+
 export function ThemeScripts() {
   return (
     <script
       dangerouslySetInnerHTML={{
-        __html: `;(() => {
-          let media = window.matchMedia('(prefers-color-scheme: dark)')
-
-          if (media.matches) {
-            document.documentElement.classList.add('dark')
-          } else {
-            document.documentElement.classList.remove('dark')
-          }
-        })();`,
+        __html: clientThemeScript,
       }}
     />
   );
