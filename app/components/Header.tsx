@@ -7,7 +7,7 @@ export default function Header() {
   let icon = useThemeValue(<FiMoon />, <FiSun />);
 
   return (
-    <header className="shadow dark:bg-moon-800">
+    <header className="sticky top-0 bg-white shadow dark:bg-moon-800">
       <div className="container-lg flex items-center justify-between py-3">
         <Link to="/" className="button text-lg" aria-label="Home page">
           🚀 Snippets
