@@ -9,9 +9,13 @@ declare global {
   }
 }
 
-if (!window.env.SUPABASE_URL) throw new Error('SUPABASE_URL is required');
+if (!window.env.SUPABASE_KEY) {
+  throw new Error('Missing env variable SUPABASE_KEY');
+}
 
-if (!window.env.SUPABASE_KEY) throw new Error('SUPABASE_KEY is required');
+if (!window.env.SUPABASE_URL) {
+  throw new Error('Missing env variable SUPABASE_URL');
+}
 
 const supabaseClient = createClient(window.env.SUPABASE_URL, window.env.SUPABASE_KEY);
 
