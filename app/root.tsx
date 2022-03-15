@@ -9,7 +9,7 @@ import {
   useLoaderData,
 } from 'remix';
 import type { MetaFunction, LinksFunction, LoaderFunction } from 'remix';
-import ThemeProvider, { ThemeScripts } from '~/contexts/Theme';
+import ThemeProvider, { ThemeScripts, useTheme } from '~/contexts/Theme';
 import Header from '~/components/Header';
 import styles from '~/styles/tailwind.min.css';
 
@@ -30,11 +30,12 @@ export const loader: LoaderFunction = () => {
   });
 };
 
-export default function App() {
+function App() {
+  let { theme } = useTheme();
   let { env } = useLoaderData();
 
   return (
-    <html lang="en">
+    <html lang="en" className={theme === 'dark' ? 'dark' : ''}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -43,15 +44,21 @@ export default function App() {
         <ThemeScripts />
       </head>
       <body className="bg-white text-moon-900 dark:bg-moon-900 dark:text-white">
-        <ThemeProvider>
-          <Header />
-          <Outlet />
-        </ThemeProvider>
+        <Header />
+        <Outlet />
         <ScrollRestoration />
         <script dangerouslySetInnerHTML={{ __html: `window.env = ${JSON.stringify(env)}` }} />
         <Scripts />
         <LiveReload />
       </body>
     </html>
+  );
+}
+
+export default function AppProviders() {
+  return (
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   );
 }

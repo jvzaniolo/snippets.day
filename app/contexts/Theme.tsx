@@ -8,33 +8,25 @@ type ThemeContextValue = {
   toggleTheme: () => void;
 };
 
-const MEDIA = window.matchMedia('(prefers-color-scheme: dark)');
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 function ThemeProvider({ children }: { children: ReactNode }) {
   let [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== 'object') return undefined;
 
-    return MEDIA.matches ? 'dark' : 'light';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
   useEffect(() => {
+    let media = window.matchMedia('(prefers-color-scheme: dark)');
     function onChange() {
-      setTheme(MEDIA.matches ? 'dark' : 'light');
+      setTheme(media.matches ? 'dark' : 'light');
     }
 
-    MEDIA.addEventListener('change', onChange);
+    media.addEventListener('change', onChange);
 
-    return () => MEDIA.removeEventListener('change', onChange);
+    return () => media.removeEventListener('change', onChange);
   }, []);
-
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [theme]);
 
   function toggleTheme() {
     setTheme(theme === 'light' ? 'dark' : 'light');
@@ -64,7 +56,7 @@ export function ThemeScripts() {
     <script
       dangerouslySetInnerHTML={{
         __html: `;(() => {
-          if (${JSON.stringify(MEDIA)}.matches) {
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.classList.add('dark')
           } else {
             document.documentElement.classList.remove('dark')
