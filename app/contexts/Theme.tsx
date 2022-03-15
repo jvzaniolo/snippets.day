@@ -8,26 +8,24 @@ type ThemeContextValue = {
   toggleTheme: () => void;
 };
 
+const MEDIA = window.matchMedia('(prefers-color-scheme: dark)');
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 function ThemeProvider({ children }: { children: ReactNode }) {
   let [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== 'object') {
-      return undefined;
-    }
+    if (typeof window !== 'object') return undefined;
 
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return MEDIA.matches ? 'dark' : 'light';
   });
 
   useEffect(() => {
-    let media = window.matchMedia('(prefers-color-scheme: dark)');
-    let onChange = () => {
-      setTheme(media.matches ? 'dark' : 'light');
-    };
+    function onChange() {
+      setTheme(MEDIA.matches ? 'dark' : 'light');
+    }
 
-    media.addEventListener('change', onChange);
+    MEDIA.addEventListener('change', onChange);
 
-    return () => media.removeEventListener('change', onChange);
+    return () => MEDIA.removeEventListener('change', onChange);
   }, []);
 
   useEffect(() => {
@@ -61,21 +59,17 @@ export function useThemeValue<T>(light: T, dark: T) {
   return theme === 'light' ? light : dark;
 }
 
-const clientThemeScript = `;(() => {
-  let media = window.matchMedia('(prefers-color-scheme: dark)')
-
-  if (media.matches) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
-})();`;
-
 export function ThemeScripts() {
   return (
     <script
       dangerouslySetInnerHTML={{
-        __html: clientThemeScript,
+        __html: `;(() => {
+          if (${JSON.stringify(MEDIA)}.matches) {
+            document.documentElement.classList.add('dark')
+          } else {
+            document.documentElement.classList.remove('dark')
+          }
+        })();`,
       }}
     />
   );

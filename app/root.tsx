@@ -2,14 +2,13 @@ import {
   json,
   Links,
   LiveReload,
-  LoaderFunction,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
   useLoaderData,
 } from 'remix';
-import type { MetaFunction, LinksFunction } from 'remix';
+import type { MetaFunction, LinksFunction, LoaderFunction } from 'remix';
 import ThemeProvider, { ThemeScripts } from '~/contexts/Theme';
 import Header from '~/components/Header';
 import styles from '~/styles/tailwind.min.css';
