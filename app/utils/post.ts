@@ -1,6 +1,6 @@
 import { marked } from 'marked';
 import sanitizeHtml from 'sanitize-html';
-import supabase from '~/services/supabase';
+import supabase from '~/services/supabase.server';
 
 export type Post = {
   id: string;

@@ -13,18 +13,22 @@ export default function Header() {
           🚀 Snippets
         </Link>
 
-        <ul>
-          <li>
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className="button ghost icon"
-              aria-label="toggle theme"
-            >
-              {icon}
-            </button>
-          </li>
-        </ul>
+        <nav className="flex">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="button ghost icon"
+            aria-label="toggle theme"
+          >
+            {icon}
+          </button>
+          <Link to="/login" className="button ghost">
+            Login
+          </Link>
+          <Link to="/sign-up" className="button primary ml-2">
+            Create Account
+          </Link>
+        </nav>
       </div>
     </header>
   );

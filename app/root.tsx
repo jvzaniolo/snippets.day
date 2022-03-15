@@ -1,4 +1,14 @@
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from 'remix';
+import {
+  json,
+  Links,
+  LiveReload,
+  LoaderFunction,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+} from 'remix';
 import type { MetaFunction, LinksFunction } from 'remix';
 import ThemeProvider, { ThemeScripts, useTheme } from '~/contexts/Theme';
 import Header from '~/components/Header';
@@ -12,8 +22,18 @@ export const meta: MetaFunction = () => {
   return { title: 'Snippets' };
 };
 
+export const loader: LoaderFunction = () => {
+  return json({
+    env: {
+      SUPABASE_URL: process.env.SUPABASE_URL,
+      SUPABASE_KEY: process.env.SUPABASE_KEY,
+    },
+  });
+};
+
 function App() {
-  const { theme } = useTheme();
+  let { theme } = useTheme();
+  let { env } = useLoaderData();
 
   return (
     <html lang="en" className={theme === 'dark' ? 'dark' : ''}>
@@ -28,6 +48,7 @@ function App() {
         <Header />
         <Outlet />
         <ScrollRestoration />
+        <script dangerouslySetInnerHTML={{ __html: `window.env = ${JSON.stringify(env)}` }} />
         <Scripts />
         <LiveReload />
       </body>
