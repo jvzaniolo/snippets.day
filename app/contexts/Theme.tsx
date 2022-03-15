@@ -21,15 +21,22 @@ function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let media = window.matchMedia('(prefers-color-scheme: dark)');
-
-    function onChange() {
+    let onChange = () => {
       setTheme(media.matches ? 'dark' : 'light');
-    }
+    };
 
     media.addEventListener('change', onChange);
 
     return () => media.removeEventListener('change', onChange);
   }, []);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   function toggleTheme() {
     setTheme(theme === 'light' ? 'dark' : 'light');

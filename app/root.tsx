@@ -31,12 +31,11 @@ export const loader: LoaderFunction = () => {
   });
 };
 
-function App() {
-  let { theme } = useTheme();
+export default function App() {
   let { env } = useLoaderData();
 
   return (
-    <html lang="en" className={theme === 'dark' ? 'dark' : ''}>
+    <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -45,21 +44,15 @@ function App() {
         <ThemeScripts />
       </head>
       <body className="bg-white text-moon-900 dark:bg-moon-900 dark:text-white">
-        <Header />
-        <Outlet />
+        <ThemeProvider>
+          <Header />
+          <Outlet />
+        </ThemeProvider>
         <ScrollRestoration />
         <script dangerouslySetInnerHTML={{ __html: `window.env = ${JSON.stringify(env)}` }} />
         <Scripts />
         <LiveReload />
       </body>
     </html>
-  );
-}
-
-export default function AppWithProviders() {
-  return (
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
   );
 }
