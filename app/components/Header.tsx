@@ -1,5 +1,5 @@
-import { FiMoon, FiSun } from 'react-icons/fi';
 import { Link } from 'remix';
+import { FiMoon, FiSun } from 'react-icons/fi';
 import { useTheme, useThemeValue } from '~/contexts/Theme';
 
 export default function Header() {

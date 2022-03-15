@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, useContext } from 'react';
 import type { ReactNode } from 'react';
 
-export type Theme = 'light' | 'dark' | undefined;
+type Theme = 'light' | 'dark' | undefined;
 
 type ThemeContextValue = {
   theme: Theme;

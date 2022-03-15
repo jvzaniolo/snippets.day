@@ -1,8 +1,8 @@
-import { FiGithub } from 'react-icons/fi';
-import { useForm } from 'react-hook-form';
-import supabaseClient from '~/services/supabase.client';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { FiGithub } from 'react-icons/fi';
 import type { ApiError } from '@supabase/supabase-js';
+import supabaseClient from '~/services/supabase.client';
 
 type LoginFormData = {
   email: string;
