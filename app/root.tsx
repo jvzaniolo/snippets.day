@@ -10,7 +10,7 @@ import {
   useLoaderData,
 } from 'remix';
 import type { MetaFunction, LinksFunction } from 'remix';
-import ThemeProvider, { ThemeScripts, useTheme } from '~/contexts/Theme';
+import ThemeProvider, { ThemeScripts } from '~/contexts/Theme';
 import Header from '~/components/Header';
 import styles from '~/styles/tailwind.min.css';
 
