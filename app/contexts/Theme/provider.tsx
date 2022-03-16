@@ -4,12 +4,12 @@ import { Theme } from './types';
 import { useFetcher } from 'remix';
 
 type ThemeContextValue = {
-  theme: Theme | null;
-  setTheme: Dispatch<SetStateAction<Theme | null>>;
+  theme: Theme | undefined;
+  setTheme: Dispatch<SetStateAction<Theme | undefined>>;
   toggleTheme: () => void;
 };
 
-const ThemeContext = createContext<ThemeContextValue | null>(null);
+const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 function ThemeProvider({ children, initialValue }: { children: ReactNode; initialValue: Theme }) {
   let [theme, setTheme] = useState(() => {
@@ -17,9 +17,12 @@ function ThemeProvider({ children, initialValue }: { children: ReactNode; initia
       return initialValue;
     }
 
-    if (typeof window === 'undefined') return null;
+    if (typeof window === 'undefined') return undefined;
 
-    return document.documentElement.classList.contains('dark') ? Theme.DARK : Theme.LIGHT;
+    let cl = document.documentElement.classList;
+
+    if (cl.contains('dark')) return Theme.DARK;
+    if (cl.contains('light')) return Theme.LIGHT;
   });
 
   useEffect(() => {
@@ -33,6 +36,7 @@ function ThemeProvider({ children, initialValue }: { children: ReactNode; initia
     return () => media.removeEventListener('change', onChange);
   }, []);
 
+  /* Remove this once useFetcher is properly memoized */
   let fetcher = useFetcher();
   let fetcherRef = useRef(fetcher);
 
@@ -40,17 +44,18 @@ function ThemeProvider({ children, initialValue }: { children: ReactNode; initia
     fetcherRef.current = fetcher;
   }, [fetcher]);
 
-  let mount = useRef(false);
+  let isMount = useRef(false);
 
   useEffect(() => {
-    if (!mount.current) {
-      mount.current = true;
+    if (!isMount.current) {
+      isMount.current = true;
       return;
     }
     if (!theme) return;
 
     fetcherRef.current.submit({ theme }, { method: 'post', action: 'action/set-theme' });
   }, [theme]);
+  /* Remove  */
 
   let themeValue = useMemo(() => {
     return {

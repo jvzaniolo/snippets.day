@@ -1,6 +1,5 @@
 import { ActionFunction, json, redirect } from 'remix';
-import { Theme } from '~/contexts/Theme';
-import { getThemeSession } from '~/contexts/Theme/server';
+import { Theme, getThemeSession } from '~/contexts/Theme';
 
 export const action: ActionFunction = async ({ request }) => {
   let themeSession = await getThemeSession(request);
@@ -9,14 +8,11 @@ export const action: ActionFunction = async ({ request }) => {
 
   themeSession.setTheme(theme);
 
-  return json(
-    { success: true },
-    {
-      headers: {
-        'Set-Cookie': await themeSession.commit(),
-      },
-    }
-  );
+  return json(true, {
+    headers: {
+      'Set-Cookie': await themeSession.commit(),
+    },
+  });
 };
 
 export const loader = () => redirect('/', { status: 404 });
