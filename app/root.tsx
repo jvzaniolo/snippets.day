@@ -9,7 +9,7 @@ import {
   useLoaderData,
 } from 'remix';
 import type { MetaFunction, LinksFunction, LoaderFunction } from 'remix';
-import ThemeProvider, { ThemeScripts, useThemeValue } from '~/contexts/Theme';
+import ThemeProvider, { ThemeScripts } from '~/contexts/Theme';
 import Header from '~/components/Header';
 import styles from '~/styles/tailwind.min.css';
 
@@ -32,10 +32,9 @@ export const loader: LoaderFunction = () => {
 
 function App() {
   let { env } = useLoaderData();
-  let className = useThemeValue('', 'dark');
 
   return (
-    <html lang="en" className={className}>
+    <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
