@@ -27,7 +27,9 @@ export async function getPosts(query = '*'): Promise<Post[] | null> {
       let html = marked(post.content, {
         sanitizer: unsafe => sanitizeHtml(unsafe),
       });
-      let previewRegex = new RegExp(/<(?:p|span)>(.*)<\/(?:p|span)>/g).exec(html);
+      let previewRegex = new RegExp(/<(?:p|span)>(.*)<\/(?:p|span)>/g).exec(
+        html
+      );
 
       return { ...post, html, preview: previewRegex?.[1] };
     });
@@ -50,7 +52,8 @@ export async function getPost(slug: string | undefined): Promise<Post | null> {
   if (post) {
     let html = marked(post.content, {
       langPrefix: 'hljs lang-',
-      highlight: (code, lang) => require('highlight.js').highlight(code, { language: lang }).value,
+      highlight: (code, lang) =>
+        require('highlight.js').highlight(code, { language: lang }).value,
       sanitizer: unsafe => sanitizeHtml(unsafe),
     });
 

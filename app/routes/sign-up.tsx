@@ -30,7 +30,8 @@ export default function SignUp() {
     },
     confirmPassword: {
       required: 'Confirm password is required',
-      validate: (value: string) => value === getValues('password') || 'Passwords do not match',
+      validate: (value: string) =>
+        value === getValues('password') || 'Passwords do not match',
     },
   };
 
@@ -52,10 +53,14 @@ export default function SignUp() {
 
   return (
     <div className="mx-auto flex flex-col space-y-8 ">
-      <h1 className="mt-8 text-center font-serif text-5xl">Thanks for joining</h1>
+      <h1 className="mt-8 text-center font-serif text-5xl">
+        Thanks for joining
+      </h1>
 
       <div className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg bg-white p-6 shadow-2xl dark:bg-moon-800">
-        {formError && <p className="text-red-600 dark:text-red-500">{formError.message}</p>}
+        {formError && (
+          <p className="text-red-600 dark:text-red-500">{formError.message}</p>
+        )}
 
         <form className="space-y-4" onSubmit={onSubmit}>
           <div className="grid gap-2">
@@ -68,7 +73,9 @@ export default function SignUp() {
               className="rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700"
             />
             {errors.email && (
-              <p className="text-red-600 dark:text-red-500">{errors.email.message}</p>
+              <p className="text-red-600 dark:text-red-500">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -81,7 +88,9 @@ export default function SignUp() {
               className="rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700"
             />
             {errors.password && (
-              <p className="text-red-600 dark:text-red-500">{errors.password.message}</p>
+              <p className="text-red-600 dark:text-red-500">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
@@ -94,11 +103,16 @@ export default function SignUp() {
               className="rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700"
             />
             {errors.confirmPassword && (
-              <p className="text-red-600 dark:text-red-500">{errors.confirmPassword.message}</p>
+              <p className="text-red-600 dark:text-red-500">
+                {errors.confirmPassword.message}
+              </p>
             )}
           </div>
 
-          <button type="submit" className="button primary !mt-10 w-full py-2 text-lg">
+          <button
+            type="submit"
+            className="button primary !mt-10 w-full py-2 text-lg"
+          >
             Login
           </button>
         </form>

@@ -11,7 +11,13 @@ type ThemeContextValue = {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-function ThemeProvider({ children, initialValue }: { children: ReactNode; initialValue: Theme }) {
+function ThemeProvider({
+  children,
+  initialValue,
+}: {
+  children: ReactNode;
+  initialValue: Theme;
+}) {
   let [theme, setTheme] = useState(() => {
     if (initialValue) {
       return initialValue;
@@ -53,7 +59,10 @@ function ThemeProvider({ children, initialValue }: { children: ReactNode; initia
     }
     if (!theme) return;
 
-    fetcherRef.current.submit({ theme }, { method: 'post', action: 'action/set-theme' });
+    fetcherRef.current.submit(
+      { theme },
+      { method: 'post', action: 'action/set-theme' }
+    );
   }, [theme]);
   /* Remove  */
 
@@ -61,11 +70,14 @@ function ThemeProvider({ children, initialValue }: { children: ReactNode; initia
     return {
       theme,
       setTheme,
-      toggleTheme: () => setTheme(prev => (prev === Theme.LIGHT ? Theme.DARK : Theme.LIGHT)),
+      toggleTheme: () =>
+        setTheme(prev => (prev === Theme.LIGHT ? Theme.DARK : Theme.LIGHT)),
     };
   }, [theme, setTheme]);
 
-  return <ThemeContext.Provider value={themeValue}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={themeValue}>{children}</ThemeContext.Provider>
+  );
 }
 
 export { Theme, ThemeContext };

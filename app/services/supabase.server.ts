@@ -17,6 +17,9 @@ if (!process.env.SUPABASE_URL) {
   throw new Error('Missing env variable SUPABASE_URL');
 }
 
-const supabaseServer = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+const supabaseServer = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
 
 export default supabaseServer;

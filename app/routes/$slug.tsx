@@ -23,9 +23,14 @@ export default function PostDetails() {
           alt={post.title}
         />
 
-        <h1 className="my-10 font-serif text-3xl md:text-4xl lg:text-5xl">{post.title}</h1>
+        <h1 className="my-10 font-serif text-3xl md:text-4xl lg:text-5xl">
+          {post.title}
+        </h1>
 
-        <article className="post-content" dangerouslySetInnerHTML={{ __html: post.html }} />
+        <article
+          className="post-content"
+          dangerouslySetInnerHTML={{ __html: post.html }}
+        />
       </main>
     </div>
   );

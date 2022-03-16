@@ -1,22 +1,24 @@
 import { ActionFunction, json, redirect } from 'remix';
-import { Theme, getThemeSession } from '~/contexts/Theme';
+import { getThemeSession, isTheme } from '~/contexts/Theme';
 
 export const action: ActionFunction = async ({ request }) => {
   let themeSession = await getThemeSession(request);
   let formData = await request.formData();
-  let theme = formData.get('theme') as Theme;
+  let theme = formData.get('theme');
+
+  if (!isTheme(theme)) {
+    return json({
+      success: false,
+      message: `theme value of ${theme} is not a valid theme`,
+    });
+  }
 
   themeSession.setTheme(theme);
 
-  return json(true, {
-    headers: {
-      'Set-Cookie': await themeSession.commit(),
-    },
-  });
+  return json(
+    { success: true },
+    { headers: { 'Set-Cookie': await themeSession.commit() } }
+  );
 };
 
 export const loader = () => redirect('/', { status: 404 });
-
-export default function MarkRead() {
-  return <div>Oops... You should not see this.</div>;
-}

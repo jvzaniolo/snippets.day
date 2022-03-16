@@ -17,6 +17,9 @@ if (!window.env.SUPABASE_URL) {
   throw new Error('Missing env variable SUPABASE_URL');
 }
 
-const supabaseClient = createClient(window.env.SUPABASE_URL, window.env.SUPABASE_KEY);
+const supabaseClient = createClient(
+  window.env.SUPABASE_URL,
+  window.env.SUPABASE_KEY
+);
 
 export default supabaseClient;

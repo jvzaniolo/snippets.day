@@ -42,7 +42,9 @@ export default function Login() {
               placeholder="example@email.com"
               className="rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700"
             />
-            {errors.email && <p className="text-red-600">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-600">{errors.email.message}</p>
+            )}
           </div>
 
           <div className="grid gap-2">
@@ -53,10 +55,15 @@ export default function Login() {
               {...register('password', { required: 'Password is required' })}
               className="rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700"
             />
-            {errors.password && <p className="text-red-600">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-600">{errors.password.message}</p>
+            )}
           </div>
 
-          <button type="submit" className="button primary !mt-10 w-full py-2 text-lg">
+          <button
+            type="submit"
+            className="button primary !mt-10 w-full py-2 text-lg"
+          >
             Login
           </button>
         </form>
