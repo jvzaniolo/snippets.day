@@ -9,8 +9,8 @@ import {
   useLoaderData,
 } from 'remix';
 import type { MetaFunction, LinksFunction, LoaderFunction } from 'remix';
-import ThemeProvider, { ThemeScripts } from '~/contexts/Theme';
 import Header from '~/components/Header';
+import ThemeProvider, { getThemeSession, useTheme, ThemeScript } from '~/contexts/Theme';
 import styles from '~/styles/tailwind.min.css';
 
 export const links: LinksFunction = () => {
@@ -21,8 +21,11 @@ export const meta: MetaFunction = () => {
   return { title: 'Snippets' };
 };
 
-export const loader: LoaderFunction = () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  let themeSession = await getThemeSession(request);
+
   return json({
+    theme: themeSession.theme,
     env: {
       SUPABASE_URL: process.env.SUPABASE_URL,
       SUPABASE_KEY: process.env.SUPABASE_KEY,
@@ -31,16 +34,17 @@ export const loader: LoaderFunction = () => {
 };
 
 function App() {
-  let { env } = useLoaderData();
+  let { env, theme: ssrTheme } = useLoaderData();
+  let { theme } = useTheme();
 
   return (
-    <html lang="en">
+    <html lang="en" className={theme ?? ''}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        <ThemeScripts />
+        <ThemeScript ssr={ssrTheme} />
       </head>
       <body className="bg-white text-moon-900 dark:bg-moon-900 dark:text-white">
         <Header />
@@ -55,8 +59,10 @@ function App() {
 }
 
 export default function AppProviders() {
+  let { theme } = useLoaderData();
+
   return (
-    <ThemeProvider>
+    <ThemeProvider initialValue={theme}>
       <App />
     </ThemeProvider>
   );

@@ -1,27 +1,22 @@
-import { createContext, useEffect, useState, useMemo } from 'react';
-import type { ReactNode } from 'react';
-
-enum Theme {
-  LIGHT = 'light',
-  DARK = 'dark',
-}
-
-const themes: Array<Theme> = Object.values(Theme);
+import { createContext, useEffect, useState, useMemo, useRef } from 'react';
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import { Theme } from './types';
+import { useFetcher } from 'remix';
 
 type ThemeContextValue = {
   theme: Theme | null;
-  setTheme: (newValue: Theme) => void;
+  setTheme: Dispatch<SetStateAction<Theme | null>>;
   toggleTheme: () => void;
 };
 
-function isTheme(value: unknown): value is Theme {
-  return typeof value === 'string' && themes.includes(value as Theme);
-}
-
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-function ThemeProvider({ children }: { children: ReactNode; initialValue: Theme | null }) {
-  let [theme, rawSetTheme] = useState(() => {
+function ThemeProvider({ children, initialValue }: { children: ReactNode; initialValue: Theme }) {
+  let [theme, setTheme] = useState(() => {
+    if (initialValue) {
+      return initialValue;
+    }
+
     if (typeof window === 'undefined') return null;
 
     return document.documentElement.classList.contains('dark') ? Theme.DARK : Theme.LIGHT;
@@ -29,35 +24,44 @@ function ThemeProvider({ children }: { children: ReactNode; initialValue: Theme 
 
   useEffect(() => {
     let media = window.matchMedia('(prefers-color-scheme: dark)');
-    function onChange() {
-      rawSetTheme(media.matches ? Theme.DARK : Theme.LIGHT);
-    }
+    let onChange = () => {
+      setTheme(media.matches ? Theme.DARK : Theme.LIGHT);
+    };
 
     media.addEventListener('change', onChange);
 
     return () => media.removeEventListener('change', onChange);
   }, []);
 
-  useEffect(() => {
-    let root = document.documentElement;
+  let fetcher = useFetcher();
+  let fetcherRef = useRef(fetcher);
 
-    if (theme === Theme.DARK) {
-      root.classList.add(Theme.DARK);
-    } else {
-      root.classList.remove(Theme.LIGHT);
+  useEffect(() => {
+    fetcherRef.current = fetcher;
+  }, [fetcher]);
+
+  let mount = useRef(false);
+
+  useEffect(() => {
+    if (!mount.current) {
+      mount.current = true;
+      return;
     }
+    if (!theme) return;
+
+    fetcherRef.current.submit({ theme }, { method: 'post', action: 'action/set-theme' });
   }, [theme]);
 
   let themeValue = useMemo(() => {
     return {
       theme,
-      setTheme: rawSetTheme,
-      toggleTheme: () => rawSetTheme(prev => (prev === Theme.LIGHT ? Theme.DARK : Theme.LIGHT)),
+      setTheme,
+      toggleTheme: () => setTheme(prev => (prev === Theme.LIGHT ? Theme.DARK : Theme.LIGHT)),
     };
-  }, [theme, rawSetTheme]);
+  }, [theme, setTheme]);
 
   return <ThemeContext.Provider value={themeValue}>{children}</ThemeContext.Provider>;
 }
 
-export { isTheme, ThemeContext };
+export { Theme, ThemeContext };
 export default ThemeProvider;

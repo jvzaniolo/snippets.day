@@ -1,19 +1,18 @@
-import type { Theme } from './types';
+import { Theme } from './types';
 
 function clientCode() {
-  let mql = window.matchMedia('(prefers-color-scheme: dark)');
-  let persistedTheme = sessionStorage.getItem('theme') as Theme | null;
-  let initialTheme: Theme = persistedTheme || (mql.matches ? 'dark' : 'light');
+  let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? Theme.DARK : Theme.LIGHT;
 
-  if (initialTheme === 'dark') {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
+  let cl = document.documentElement.classList;
+  let themeAlreadyApplied = cl.contains('light') || cl.contains('dark');
+
+  if (!themeAlreadyApplied) {
+    cl.add(theme);
   }
 }
 
-export function ThemeScripts() {
-  return (
+function ThemeScript({ ssr }: { ssr: Theme }) {
+  return ssr ? null : (
     <script
       dangerouslySetInnerHTML={{
         __html: `;(${String(clientCode)})();`,
@@ -21,3 +20,5 @@ export function ThemeScripts() {
     />
   );
 }
+
+export { ThemeScript };

@@ -1,7 +1,8 @@
 import { useContext } from 'react';
-import { isTheme, ThemeContext } from './provider';
+import { isTheme } from './utils';
+import { ThemeContext } from './provider';
 
-export function useTheme() {
+function useTheme() {
   let context = useContext(ThemeContext);
 
   if (!context) {
@@ -11,8 +12,10 @@ export function useTheme() {
   return context;
 }
 
-export function useThemeValue<T>(light: T, dark: T) {
+function useThemeValue<T>(light: T, dark: T) {
   let { theme } = useTheme();
 
   return isTheme(theme) && theme === 'dark' ? light : dark;
 }
+
+export { useTheme, useThemeValue };
