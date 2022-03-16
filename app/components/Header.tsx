@@ -3,7 +3,7 @@ import { FiMoon, FiSun } from 'react-icons/fi';
 import { useTheme, useThemeValue } from '~/contexts/Theme';
 
 export default function Header() {
-  let { theme, setTheme } = useTheme();
+  let { toggleTheme } = useTheme();
   let icon = useThemeValue(<FiMoon />, <FiSun />);
 
   return (
@@ -16,7 +16,7 @@ export default function Header() {
         <nav className="flex">
           <button
             type="button"
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            onClick={toggleTheme}
             className="button ghost icon"
             aria-label="toggle theme"
           >
