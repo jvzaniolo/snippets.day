@@ -84,23 +84,23 @@ function useThemeValue<T>(light: T, dark: T) {
   return theme === Theme.LIGHT ? light : dark;
 }
 
-function clientCode() {
-  let root = document.documentElement;
-  let theme = window.sessionStorage.getItem('theme');
+function ThemeScript() {
+  function clientCode() {
+    let root = document.documentElement;
+    let theme = window.sessionStorage.getItem('theme');
 
-  if (!theme) {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      theme = 'dark';
-    } else {
-      theme = 'light';
+    if (!theme) {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      } else {
+        theme = 'light';
+      }
     }
+
+    if (theme === 'dark') root.classList.add('dark');
+    if (theme === 'light') root.classList.remove('dark');
   }
 
-  if (theme === 'dark') root.classList.add('dark');
-  if (theme === 'light') root.classList.remove('dark');
-}
-
-function ThemeScript() {
   return (
     <script
       dangerouslySetInnerHTML={{
@@ -110,5 +110,5 @@ function ThemeScript() {
   );
 }
 
-export { ThemeScript, useTheme, useThemeValue };
+export { ThemeScript, useTheme, useThemeValue, isTheme };
 export default ThemeProvider;

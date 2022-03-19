@@ -10,15 +10,23 @@ import {
 } from 'remix';
 import type { MetaFunction, LinksFunction, LoaderFunction } from 'remix';
 import Header from '~/components/Header';
-import ThemeProvider, {
-  ThemeScript,
-  useTheme,
-  useThemeValue,
-} from '~/contexts/Theme';
+import ThemeProvider, { ThemeScript, useTheme } from '~/contexts/Theme';
 import styles from '~/styles/tailwind.min.css';
 
 export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: styles }];
+  return [
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+      crossOrigin: undefined,
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:wght@200;300;400;500;600;700;800;900&display=swap',
+    },
+    { rel: 'stylesheet', href: styles },
+  ];
 };
 
 export const meta: MetaFunction = () => {
@@ -45,7 +53,6 @@ function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        <ThemeScript />
       </head>
       <body className="bg-white text-moon-900 dark:bg-moon-900 dark:text-white">
         <Header />
@@ -56,6 +63,7 @@ function App() {
             __html: `window.env = ${JSON.stringify(env)}`,
           }}
         />
+        <ThemeScript />
         <Scripts />
         <LiveReload />
       </body>
