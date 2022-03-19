@@ -12,13 +12,9 @@ type ThemeValue = {
   toggleTheme: () => void;
 };
 
-function isTheme(value: unknown): value is Theme {
-  return value === Theme.LIGHT || value === Theme.DARK;
-}
-
 const ThemeContext = createContext<ThemeValue | undefined>(undefined);
 
-function ThemeProvider({ children }: { children: ReactNode }) {
+export default function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, rawSetTheme] = useState(() => {
     if (typeof window === 'undefined') return null;
 
@@ -61,7 +57,11 @@ function ThemeProvider({ children }: { children: ReactNode }) {
   );
 }
 
-function useTheme() {
+export function isTheme(value: unknown): value is Theme {
+  return value === Theme.LIGHT || value === Theme.DARK;
+}
+
+export function useTheme() {
   let context = useContext(ThemeContext);
 
   if (context === undefined) {
@@ -71,7 +71,7 @@ function useTheme() {
   return context;
 }
 
-function useThemeValue<T>(light: T, dark: T) {
+export function useThemeValue<T>(light: T, dark: T) {
   let { theme } = useTheme();
   let [isMounted, setIsMounted] = useState(false);
 
@@ -84,7 +84,7 @@ function useThemeValue<T>(light: T, dark: T) {
   return theme === Theme.LIGHT ? light : dark;
 }
 
-function ThemeScript() {
+export function ThemeScript() {
   function clientCode() {
     let root = document.documentElement;
     let theme = window.sessionStorage.getItem('theme');
@@ -109,6 +109,3 @@ function ThemeScript() {
     />
   );
 }
-
-export { ThemeScript, useTheme, useThemeValue, isTheme };
-export default ThemeProvider;
