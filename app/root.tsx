@@ -10,7 +10,11 @@ import {
 } from 'remix';
 import type { MetaFunction, LinksFunction, LoaderFunction } from 'remix';
 import Header from '~/components/Header';
-import ThemeProvider, { getThemeSession, useTheme, ThemeScript } from '~/contexts/Theme';
+import ThemeProvider, {
+  ThemeScript,
+  useTheme,
+  useThemeValue,
+} from '~/contexts/Theme';
 import styles from '~/styles/tailwind.min.css';
 
 export const links: LinksFunction = () => {
@@ -21,11 +25,8 @@ export const meta: MetaFunction = () => {
   return { title: 'Snippets' };
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  let themeSession = await getThemeSession(request);
-
+export const loader: LoaderFunction = async () => {
   return json({
-    theme: themeSession.theme,
     env: {
       SUPABASE_URL: process.env.SUPABASE_URL,
       SUPABASE_KEY: process.env.SUPABASE_KEY,
@@ -34,23 +35,27 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 function App() {
-  let { env, theme: ssrTheme } = useLoaderData();
+  let { env } = useLoaderData();
   let { theme } = useTheme();
 
   return (
-    <html lang="en" className={theme ?? ''}>
+    <html lang="en" className={theme === 'dark' ? 'dark' : ''}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        <ThemeScript ssr={ssrTheme} />
+        <ThemeScript />
       </head>
       <body className="bg-white text-moon-900 dark:bg-moon-900 dark:text-white">
         <Header />
         <Outlet />
         <ScrollRestoration />
-        <script dangerouslySetInnerHTML={{ __html: `window.env = ${JSON.stringify(env)}` }} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.env = ${JSON.stringify(env)}`,
+          }}
+        />
         <Scripts />
         <LiveReload />
       </body>
@@ -58,11 +63,9 @@ function App() {
   );
 }
 
-export default function AppProviders() {
-  let { theme } = useLoaderData();
-
+export default function AppWithProviders() {
   return (
-    <ThemeProvider initialValue={theme}>
+    <ThemeProvider>
       <App />
     </ThemeProvider>
   );
