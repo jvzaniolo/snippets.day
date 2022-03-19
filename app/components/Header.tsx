@@ -22,12 +22,12 @@ export default function Header() {
           >
             {icon}
           </button>
-          <Link to="/login" className="button ghost">
+          {/* <Link to="/login" className="button ghost">
             Login
           </Link>
           <Link to="/sign-up" className="button primary ml-2">
             Create Account
-          </Link>
+          </Link> */}
         </nav>
       </div>
     </header>
