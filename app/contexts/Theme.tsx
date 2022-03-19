@@ -1,77 +1,114 @@
-import { createContext, useEffect, useState, useContext } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 
-export type Theme = 'light' | 'dark' | undefined;
+enum Theme {
+  LIGHT = 'light',
+  DARK = 'dark',
+}
 
-type ThemeContextValue = {
-  theme: Theme;
+type ThemeValue = {
+  theme: Theme | null;
+  setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
 };
 
-const ThemeContext = createContext<ThemeContextValue | null>(null);
+function isTheme(value: unknown): value is Theme {
+  return value === Theme.LIGHT || value === Theme.DARK;
+}
+
+const ThemeContext = createContext<ThemeValue | undefined>(undefined);
 
 function ThemeProvider({ children }: { children: ReactNode }) {
-  let [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== 'object') {
-      return undefined;
+  const [theme, rawSetTheme] = useState(() => {
+    if (typeof window === 'undefined') return null;
+
+    const storedTheme = window.sessionStorage.getItem('theme');
+
+    if (storedTheme) return storedTheme as Theme;
+
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return Theme.DARK;
     }
 
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return Theme.LIGHT;
   });
 
   useEffect(() => {
-    let media = window.matchMedia('(prefers-color-scheme: dark)');
+    let mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+    let onChange = () => {
+      rawSetTheme(mediaQueryList.matches ? Theme.DARK : Theme.LIGHT);
+    };
 
-    function onChange() {
-      setTheme(media.matches ? 'dark' : 'light');
-    }
+    mediaQueryList.addEventListener('change', onChange);
 
-    media.addEventListener('change', onChange);
-
-    return () => media.removeEventListener('change', onChange);
+    return () => mediaQueryList.removeEventListener('change', onChange);
   }, []);
 
-  function toggleTheme() {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+  function setTheme(newTheme: Theme) {
+    window.sessionStorage.setItem('theme', newTheme);
+
+    rawSetTheme(newTheme);
   }
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+  function toggleTheme() {
+    setTheme(theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT);
+  }
+
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
-export function useTheme() {
+function useTheme() {
   let context = useContext(ThemeContext);
 
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
 
   return context;
 }
 
-export function useThemeValue<T>(light: T, dark: T) {
+function useThemeValue<T>(light: T, dark: T) {
   let { theme } = useTheme();
+  let [isMounted, setIsMounted] = useState(false);
 
-  return theme === 'light' ? light : dark;
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
+
+  return theme === Theme.LIGHT ? light : dark;
 }
 
-const clientThemeScript = `;(() => {
-  let media = window.matchMedia('(prefers-color-scheme: dark)')
+function clientCode() {
+  let root = document.documentElement;
+  let theme = window.sessionStorage.getItem('theme');
 
-  if (media.matches) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
+  if (!theme) {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      theme = 'dark';
+    } else {
+      theme = 'light';
+    }
   }
-})();`;
 
-export function ThemeScripts() {
+  if (theme === 'dark') root.classList.add('dark');
+  if (theme === 'light') root.classList.remove('dark');
+}
+
+function ThemeScript() {
   return (
     <script
       dangerouslySetInnerHTML={{
-        __html: clientThemeScript,
+        __html: `;(${String(clientCode)})();`,
       }}
     />
   );
 }
 
+export { ThemeScript, useTheme, useThemeValue };
 export default ThemeProvider;

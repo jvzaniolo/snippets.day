@@ -11,17 +11,18 @@
     "dev": "run-p dev:*",
     "dev:css": "npm run generate:css -- --watch",
     "dev:remix": "cross-env NODE_ENV=development remix dev",
-    "generate:css": "npx tailwindcss -i ./styles/tailwind.css -o ./app/tailwind.css",
+    "generate:css": "npx tailwindcss -i ./app/styles/tailwind.css -o ./app/styles/tailwind.min.css",
     "postinstall": "remix setup node"
   },
   "dependencies": {
     "@remix-run/react": "^1.2.3",
     "@remix-run/vercel": "^1.2.3",
     "@supabase/supabase-js": "^1.31.1",
-    "highlight.js": "^11.4.0",
+    "highlight.js": "^11.5.0",
     "marked": "^4.0.12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.28.0",
     "react-icons": "^4.3.1",
     "remix": "^1.2.3",
     "sanitize-html": "^2.7.0"
@@ -31,17 +32,17 @@
     "@remix-run/eslint-config": "^1.2.3",
     "@remix-run/serve": "^1.2.3",
     "@types/marked": "^4.0.2",
-    "@types/react": "^17.0.24",
-    "@types/react-dom": "^17.0.9",
+    "@types/react": "^17.0.40",
+    "@types/react-dom": "^17.0.13",
     "@types/sanitize-html": "^2.6.2",
     "cross-env": "^7.0.3",
-    "eslint": "^8.9.0",
+    "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.5.1",
+    "prettier": "^2.6.0",
     "prettier-plugin-tailwindcss": "^0.1.8",
     "tailwindcss": "^3.0.23",
-    "typescript": "^4.5.5"
+    "typescript": "^4.6.2"
   },
   "engines": {
     "node": ">=14.x"
