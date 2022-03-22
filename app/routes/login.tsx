@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiGithub } from 'react-icons/fi';
 import type { ApiError } from '@supabase/supabase-js';
-import supabaseClient from '~/services/supabase.client';
+import supabase from '~/services/supabase';
 
 type LoginFormData = {
   email: string;
@@ -10,17 +10,17 @@ type LoginFormData = {
 };
 
 export default function Login() {
-  let [formError, setFormError] = useState<ApiError | null>(null);
-  let {
+  const [formError, setFormError] = useState<ApiError | null>(null);
+  const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>();
 
-  let onSubmit = handleSubmit(async data => {
-    let { email, password } = data;
+  const onSubmit = handleSubmit(async data => {
+    const { email, password } = data;
 
-    let { error } = await supabaseClient.auth.signIn({ email, password });
+    const { error } = await supabase.auth.signIn({ email, password });
 
     setFormError(error);
   });
@@ -75,7 +75,7 @@ export default function Login() {
         </div>
 
         <button
-          onClick={() => supabaseClient.auth.signIn({ provider: 'github' })}
+          onClick={() => supabase.auth.signIn({ provider: 'github' })}
           className="!mt-0 flex w-full items-center justify-center gap-4 rounded bg-black py-2 text-lg text-white"
         >
           <FiGithub />

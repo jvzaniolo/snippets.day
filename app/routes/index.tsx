@@ -7,7 +7,7 @@ export const loader = () => {
 };
 
 export default function Index() {
-  let posts: Post[] | null = useLoaderData();
+  const posts: Post[] | null = useLoaderData();
 
   return (
     <main className="container-lg mt-10 space-y-10">

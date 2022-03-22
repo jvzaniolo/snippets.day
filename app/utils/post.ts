@@ -1,6 +1,6 @@
 import { marked } from 'marked';
 import sanitizeHtml from 'sanitize-html';
-import supabase from '~/services/supabase.server';
+import supabase from '~/services/supabase';
 
 export type Post = {
   id: string;
@@ -16,7 +16,9 @@ export type Post = {
 };
 
 export async function getPosts(query = '*'): Promise<Post[] | null> {
-  let { data: posts, error } = await supabase.from<Post>('post').select(query);
+  const { data: posts, error } = await supabase
+    .from<Post>('post')
+    .select(query);
 
   if (error) {
     throw new Error(error.message);
@@ -24,10 +26,10 @@ export async function getPosts(query = '*'): Promise<Post[] | null> {
 
   if (posts) {
     return posts.map(post => {
-      let html = marked(post.content, {
+      const html = marked(post.content, {
         sanitizer: unsafe => sanitizeHtml(unsafe),
       });
-      let previewRegex = new RegExp(/<(?:p|span)>(.*)<\/(?:p|span)>/g).exec(
+      const previewRegex = new RegExp(/<(?:p|span)>(.*)<\/(?:p|span)>/g).exec(
         html
       );
 
@@ -39,7 +41,7 @@ export async function getPosts(query = '*'): Promise<Post[] | null> {
 }
 
 export async function getPost(slug: string | undefined): Promise<Post | null> {
-  let { data: post, error } = await supabase
+  const { data: post, error } = await supabase
     .from<Post>('post')
     .select('*')
     .eq('slug', slug)
@@ -50,7 +52,7 @@ export async function getPost(slug: string | undefined): Promise<Post | null> {
   }
 
   if (post) {
-    let html = marked(post.content, {
+    const html = marked(post.content, {
       langPrefix: 'hljs lang-',
       highlight: (code, lang) =>
         require('highlight.js').highlight(code, { language: lang }).value,

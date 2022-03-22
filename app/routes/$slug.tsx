@@ -11,7 +11,7 @@ export const loader: LoaderFunction = ({ params }) => {
 };
 
 export default function PostDetails() {
-  let post: Post | null = useLoaderData();
+  const post: Post | null = useLoaderData();
 
   if (!post) return redirect('/');
 

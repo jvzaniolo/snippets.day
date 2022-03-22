@@ -43,8 +43,8 @@ export const loader: LoaderFunction = async () => {
 };
 
 function App() {
-  let { env } = useLoaderData();
-  let { theme } = useTheme();
+  const { env } = useLoaderData();
+  const { theme } = useTheme();
 
   return (
     <html lang="en" className={theme === 'dark' ? 'dark' : ''}>

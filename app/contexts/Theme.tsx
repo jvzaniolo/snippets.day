@@ -30,8 +30,8 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    let mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    let onChange = () => {
+    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+    const onChange = () => {
       rawSetTheme(mediaQueryList.matches ? Theme.DARK : Theme.LIGHT);
     };
 
@@ -62,7 +62,7 @@ export function isTheme(value: unknown): value is Theme {
 }
 
 export function useTheme() {
-  let context = useContext(ThemeContext);
+  const context = useContext(ThemeContext);
 
   if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');
@@ -72,8 +72,8 @@ export function useTheme() {
 }
 
 export function useThemeValue<T>(light: T, dark: T) {
-  let { theme } = useTheme();
-  let [isMounted, setIsMounted] = useState(false);
+  const { theme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);

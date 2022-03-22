@@ -3,8 +3,8 @@ import { FiMoon, FiSun } from 'react-icons/fi';
 import { useTheme, useThemeValue } from '~/contexts/Theme';
 
 export default function Header() {
-  let { toggleTheme } = useTheme();
-  let icon = useThemeValue(<FiMoon />, <FiSun />);
+  const { toggleTheme } = useTheme();
+  const icon = useThemeValue(<FiMoon />, <FiSun />);
 
   return (
     <header className="sticky top-0 bg-white shadow dark:bg-moon-800">

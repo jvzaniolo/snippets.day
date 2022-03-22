@@ -3,7 +3,7 @@ import { redirect } from 'remix';
 import { useForm } from 'react-hook-form';
 import { FiGithub } from 'react-icons/fi';
 import type { ApiError } from '@supabase/supabase-js';
-import supabaseClient from '~/services/supabase.client';
+import supabase from '~/services/supabase';
 
 type LoginFormData = {
   email: string;
@@ -12,8 +12,8 @@ type LoginFormData = {
 };
 
 export default function SignUp() {
-  let [formError, setFormError] = useState<ApiError | null>(null);
-  let {
+  const [formError, setFormError] = useState<ApiError | null>(null);
+  const {
     register,
     handleSubmit,
     formState: { errors },
@@ -21,7 +21,7 @@ export default function SignUp() {
     getValues,
   } = useForm<LoginFormData>();
 
-  let validationSchema = {
+  const validationSchema = {
     email: {
       required: 'Email is required',
     },
@@ -35,14 +35,14 @@ export default function SignUp() {
     },
   };
 
-  let onSubmit = handleSubmit(async data => {
-    let { email, password, confirmPassword } = data;
+  const onSubmit = handleSubmit(async data => {
+    const { email, password, confirmPassword } = data;
 
     if (password !== confirmPassword) {
       return setError('confirmPassword', { message: 'Passwords do not match' });
     }
 
-    let { error } = await supabaseClient.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({ email, password });
 
     if (error) {
       return setFormError(error);
@@ -124,7 +124,7 @@ export default function SignUp() {
         </div>
 
         <button
-          onClick={() => supabaseClient.auth.signUp({ provider: 'github' })}
+          onClick={() => supabase.auth.signUp({ provider: 'github' })}
           className="!mt-0 flex w-full items-center justify-center gap-4 rounded bg-black py-2 text-lg text-white"
         >
           <FiGithub />
