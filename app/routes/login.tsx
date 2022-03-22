@@ -25,6 +25,10 @@ export default function Login() {
     setFormError(error);
   });
 
+  function onGithubSignIn() {
+    supabase.auth.signIn({ provider: 'github' });
+  }
+
   return (
     <div className="mx-auto flex flex-col space-y-8 ">
       <h1 className="mt-8 text-center font-serif text-5xl">Welcome back</h1>
@@ -75,7 +79,7 @@ export default function Login() {
         </div>
 
         <button
-          onClick={() => supabase.auth.signIn({ provider: 'github' })}
+          onClick={onGithubSignIn}
           className="!mt-0 flex w-full items-center justify-center gap-4 rounded bg-black py-2 text-lg text-white"
         >
           <FiGithub />

@@ -15,23 +15,18 @@ declare global {
   }
 }
 
-if (!process.env.SUPABASE_KEY) {
-  throw new Error('Missing env variable SUPABASE_KEY');
+const isServer = typeof window === 'undefined';
+
+function createSupabaseClient() {
+  if (isServer) {
+    console.log('Creating Supabase Server client');
+    return createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+  }
+
+  console.log('Creating Supabase Client client');
+  return createClient(window.env.SUPABASE_URL, window.env.SUPABASE_KEY);
 }
 
-if (!process.env.SUPABASE_URL) {
-  throw new Error('Missing env variable SUPABASE_URL');
-}
-
-function getSupabaseClient() {
-  const isServer = typeof window === 'undefined';
-
-  return createClient(
-    isServer ? process.env.SUPABASE_URL : window.env.SUPABASE_URL,
-    isServer ? process.env.SUPABASE_KEY : window.env.SUPABASE_KEY
-  );
-}
-
-const supabase = getSupabaseClient();
+const supabase = createSupabaseClient();
 
 export default supabase;
