@@ -15,15 +15,13 @@ declare global {
   }
 }
 
-const isServer = typeof window === 'undefined';
+const isServer = typeof document === 'undefined';
 
 function createSupabaseClient() {
   if (isServer) {
-    console.log('Creating Supabase Server client');
     return createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
   }
 
-  console.log('Creating Supabase Client client');
   return createClient(window.env.SUPABASE_URL, window.env.SUPABASE_KEY);
 }
 

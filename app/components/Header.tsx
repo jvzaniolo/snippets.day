@@ -1,8 +1,11 @@
 import { Link } from 'remix';
 import { FiMoon, FiSun } from 'react-icons/fi';
 import { useTheme, useThemeValue } from '~/contexts/Theme';
+import { useSession } from '~/contexts/Session';
+import supabase from '~/services/supabase';
 
 export default function Header() {
+  const { session } = useSession();
   const { toggleTheme } = useTheme();
   const icon = useThemeValue(<FiMoon />, <FiSun />);
 
@@ -22,12 +25,24 @@ export default function Header() {
           >
             {icon}
           </button>
-          {/* <Link to="/login" className="button ghost">
-            Login
-          </Link>
-          <Link to="/sign-up" className="button primary ml-2">
-            Create Account
-          </Link> */}
+
+          {session ? (
+            <button
+              className="button primary ml-2"
+              onClick={() => supabase.auth.signOut()}
+            >
+              Sign Out
+            </button>
+          ) : (
+            <>
+              <Link to="/login" className="button ghost">
+                Login
+              </Link>
+              <Link to="/sign-up" className="button primary ml-2">
+                Create Account
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </header>

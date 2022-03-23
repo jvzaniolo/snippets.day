@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { redirect } from 'remix';
 import { useForm } from 'react-hook-form';
 import { FiGithub } from 'react-icons/fi';
 import type { ApiError } from '@supabase/supabase-js';
@@ -12,12 +11,12 @@ type LoginFormData = {
 };
 
 export default function SignUp() {
-  const [formError, setFormError] = useState<ApiError | null>(null);
+  const [error, setError] = useState<ApiError | null>(null);
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    setError,
+    formState: { errors: formErrors },
+    setError: setFormError,
     getValues,
   } = useForm<LoginFormData>();
 
@@ -39,16 +38,18 @@ export default function SignUp() {
     const { email, password, confirmPassword } = data;
 
     if (password !== confirmPassword) {
-      return setError('confirmPassword', { message: 'Passwords do not match' });
+      return setFormError('confirmPassword', {
+        message: 'Passwords do not match',
+      });
     }
 
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error, session } = await supabase.auth.signUp({ email, password });
 
     if (error) {
-      return setFormError(error);
+      return setError(error);
     }
 
-    redirect('/');
+    console.log(session);
   });
 
   return (
@@ -58,8 +59,8 @@ export default function SignUp() {
       </h1>
 
       <div className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg bg-white p-6 shadow-2xl dark:bg-moon-800">
-        {formError && (
-          <p className="text-red-600 dark:text-red-500">{formError.message}</p>
+        {error && (
+          <p className="text-red-600 dark:text-red-500">{error.message}</p>
         )}
 
         <form className="space-y-4" onSubmit={onSubmit}>
@@ -72,9 +73,9 @@ export default function SignUp() {
               placeholder="example@email.com"
               className="rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700"
             />
-            {errors.email && (
+            {formErrors.email && (
               <p className="text-red-600 dark:text-red-500">
-                {errors.email.message}
+                {formErrors.email.message}
               </p>
             )}
           </div>
@@ -87,9 +88,9 @@ export default function SignUp() {
               {...register('password', validationSchema.password)}
               className="rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700"
             />
-            {errors.password && (
+            {formErrors.password && (
               <p className="text-red-600 dark:text-red-500">
-                {errors.password.message}
+                {formErrors.password.message}
               </p>
             )}
           </div>
@@ -102,9 +103,9 @@ export default function SignUp() {
               {...register('confirmPassword', validationSchema.confirmPassword)}
               className="rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700"
             />
-            {errors.confirmPassword && (
+            {formErrors.confirmPassword && (
               <p className="text-red-600 dark:text-red-500">
-                {errors.confirmPassword.message}
+                {formErrors.confirmPassword.message}
               </p>
             )}
           </div>

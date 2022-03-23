@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from 'remix';
-import { getPosts, type Post } from '~/utils/post';
 import readingTime from '~/utils/read-time';
+import { getPosts, type Post } from '~/utils/post';
 
 export const loader = () => {
   return getPosts('*, profile(*)');

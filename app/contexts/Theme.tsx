@@ -16,7 +16,7 @@ const ThemeContext = createContext<ThemeValue | undefined>(undefined);
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, rawSetTheme] = useState(() => {
-    if (typeof window === 'undefined') return null;
+    if (typeof document === 'undefined') return null;
 
     const storedTheme = window.sessionStorage.getItem('theme');
 
