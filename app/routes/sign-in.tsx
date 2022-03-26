@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Form, json, redirect, useActionData, useTransition } from 'remix';
+import type { ActionFunction } from 'remix';
 import { FiGithub } from 'react-icons/fi';
-import type { ApiError } from '@supabase/supabase-js';
 import supabase from '~/services/supabase';
 
 type LoginFormData = {
@@ -9,64 +8,64 @@ type LoginFormData = {
   password: string;
 };
 
-export default function Login() {
-  const [formError, setFormError] = useState<ApiError | null>(null);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>();
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const { email, password } = Object.fromEntries(formData) as LoginFormData;
+  const { error } = await supabase.auth.api.signInWithEmail(email, password);
 
-  const onSubmit = handleSubmit(async data => {
-    const { email, password } = data;
+  if (error) return json({ error: error.message }, error.status);
 
-    const { error } = await supabase.auth.signIn({ email, password });
+  return redirect('/');
+};
 
-    setFormError(error);
-  });
+export default function SignIn() {
+  const actionData = useActionData();
+  const { state } = useTransition();
 
   return (
     <div className="mx-auto flex flex-col space-y-8 ">
       <h1 className="mt-8 text-center font-serif text-5xl">Welcome back</h1>
 
       <div className="mx-auto flex w-full max-w-sm flex-col space-y-4 rounded-lg bg-white p-6 shadow-2xl dark:bg-moon-800">
-        {formError && <p className="text-red-600">{formError.message}</p>}
+        {actionData?.error && (
+          <p className="text-red-600 dark:text-red-500">{actionData.error}</p>
+        )}
 
-        <form className="space-y-4" onSubmit={onSubmit}>
+        <Form className="space-y-4" method="post">
           <div className="grid gap-2">
             <label htmlFor="email">Email address</label>
             <input
               id="email"
+              name="email"
               type="email"
-              {...register('email', { required: 'Email is required' })}
               placeholder="example@email.com"
               className="rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700"
             />
-            {errors.email && (
+            {/* {errors.email && (
               <p className="text-red-600">{errors.email.message}</p>
-            )}
+            )} */}
           </div>
 
           <div className="grid gap-2">
             <label htmlFor="password">Password</label>
             <input
               id="password"
+              name="password"
               type="password"
-              {...register('password', { required: 'Password is required' })}
               className="rounded bg-moon-100 p-2 outline-primary-500 focus:outline focus:outline-2 dark:bg-moon-700"
             />
-            {errors.password && (
+            {/* {errors.password && (
               <p className="text-red-600">{errors.password.message}</p>
-            )}
+            )} */}
           </div>
 
           <button
             type="submit"
             className="button primary !mt-10 w-full py-2 text-lg"
           >
-            Login
+            {state === 'submitting' ? 'Signing in...' : 'Sign In'}
           </button>
-        </form>
+        </Form>
 
         <div className="!my-4 flex items-center space-x-4">
           <hr className="w-full" />

@@ -35,8 +35,8 @@ export default function Header() {
             </button>
           ) : (
             <>
-              <Link to="/login" className="button ghost">
-                Login
+              <Link to="/sign-in" className="button ghost">
+                Sign In
               </Link>
               <Link to="/sign-up" className="button primary ml-2">
                 Create Account
